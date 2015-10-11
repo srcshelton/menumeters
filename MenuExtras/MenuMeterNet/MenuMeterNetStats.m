@@ -115,7 +115,7 @@
 		// Build the interface name to string so we can key off it
 		// (using NSData here because initWithBytes is 10.3 and later)
 		NSString *interfaceName = [[[NSString alloc]
-										initWithData:[NSData dataWithBytes:sdl->sdl_data length:sdl->sdl_nlen]
+					    initWithData:[NSData dataWithBytes:sdl->sdl_data length:sdl->sdl_nlen]
 									encoding:NSASCIIStringEncoding] autorelease];
 		if (!interfaceName) {
 			currentData += ifmsg->ifm_msglen;
@@ -162,38 +162,38 @@
 						if (peak < (deltaOut / sampleInterval)) peak = deltaOut / sampleInterval;
 					}
 					[newStats setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-										[pppStats objectForKey:@"inBytes"],
-										@"ifin",
-										[pppStats objectForKey:@"outBytes"],
-										@"ifout",
-										[NSNumber numberWithUnsignedLongLong:deltaIn],
-										@"deltain",
-										[NSNumber numberWithUnsignedLongLong:deltaOut],
-										@"deltaout",
-										[NSNumber numberWithUnsignedLongLong:totalIn],
-										@"totalin",
-										[NSNumber numberWithUnsignedLongLong:totalOut],
-										@"totalout",
-										[NSNumber numberWithDouble:peak],
-										@"peak",
-										nil]
-								forKey:interfaceName];
+							     [pppStats objectForKey:@"inBytes"],
+							     @"ifin",
+							     [pppStats objectForKey:@"outBytes"],
+							     @"ifout",
+							     [NSNumber numberWithUnsignedLongLong:deltaIn],
+							     @"deltain",
+							     [NSNumber numberWithUnsignedLongLong:deltaOut],
+							     @"deltaout",
+							     [NSNumber numberWithUnsignedLongLong:totalIn],
+							     @"totalin",
+							     [NSNumber numberWithUnsignedLongLong:totalOut],
+							     @"totalout",
+							     [NSNumber numberWithDouble:peak],
+							     @"peak",
+							     nil]
+						     forKey:interfaceName];
 				} else {
 					[newStats setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-											[pppStats objectForKey:@"inBytes"],
-											@"totalin",
-											[pppStats objectForKey:@"outBytes"],
-											@"totalout",
-											[pppStats objectForKey:@"inBytes"],
-											@"ifin",
-											[pppStats objectForKey:@"outBytes"],
-											@"ifout",
-											// No deltas since that would make
-											// first sample artificially large
-											[NSNumber numberWithDouble:0.0],
-											@"peak",
-											nil]
-								 forKey:interfaceName];
+							     [pppStats objectForKey:@"inBytes"],
+							     @"totalin",
+							     [pppStats objectForKey:@"outBytes"],
+							     @"totalout",
+							     [pppStats objectForKey:@"inBytes"],
+							     @"ifin",
+							     [pppStats objectForKey:@"outBytes"],
+							     @"ifout",
+							     // No deltas since that would make
+							     // first sample artificially large
+							     [NSNumber numberWithDouble:0.0],
+							     @"peak",
+							     nil]
+						     forKey:interfaceName];
 				}
 			}
 		} else {
@@ -228,37 +228,37 @@
 					if (peak < (deltaOut / sampleInterval)) peak = deltaOut / sampleInterval;
 				}
 				[newStats setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-										[NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_ibytes],
-										@"ifin",
-										[NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_obytes],
-										@"ifout",
-										[NSNumber numberWithUnsignedLongLong:deltaIn],
-										@"deltain",
-										[NSNumber numberWithUnsignedLongLong:deltaOut],
-										@"deltaout",
-										[NSNumber numberWithUnsignedLongLong:totalIn],
-										@"totalin",
-										[NSNumber numberWithUnsignedLongLong:totalOut],
-										@"totalout",
-										[NSNumber numberWithDouble:peak],
-										@"peak",
-										nil]
-							forKey:interfaceName];
+						     [NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_ibytes],
+						     @"ifin",
+						     [NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_obytes],
+						     @"ifout",
+						     [NSNumber numberWithUnsignedLongLong:deltaIn],
+						     @"deltain",
+						     [NSNumber numberWithUnsignedLongLong:deltaOut],
+						     @"deltaout",
+						     [NSNumber numberWithUnsignedLongLong:totalIn],
+						     @"totalin",
+						     [NSNumber numberWithUnsignedLongLong:totalOut],
+						     @"totalout",
+						     [NSNumber numberWithDouble:peak],
+						     @"peak",
+						     nil]
+					     forKey:interfaceName];
 			} else {
 				[newStats setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-										// Paranoia, is this where the neg numbers came from?
-										[NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_ibytes],
-										@"ifin",
-										[NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_obytes],
-										@"ifout",
-										[NSNumber numberWithUnsignedLongLong:ifmsg->ifm_data.ifi_ibytes],
-										@"totalin",
-										[NSNumber numberWithUnsignedLongLong:ifmsg->ifm_data.ifi_obytes],
-										@"totalout",
-										[NSNumber numberWithDouble:0],
-										@"peak",
-										nil]
-						forKey:interfaceName];
+						     // Paranoia, is this where the neg numbers came from?
+						     [NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_ibytes],
+						     @"ifin",
+						     [NSNumber numberWithUnsignedInt:ifmsg->ifm_data.ifi_obytes],
+						     @"ifout",
+						     [NSNumber numberWithUnsignedLongLong:ifmsg->ifm_data.ifi_ibytes],
+						     @"totalin",
+						     [NSNumber numberWithUnsignedLongLong:ifmsg->ifm_data.ifi_obytes],
+						     @"totalout",
+						     [NSNumber numberWithDouble:0],
+						     @"peak",
+						     nil]
+					     forKey:interfaceName];
 			}
 		}
 
@@ -270,7 +270,7 @@
 	[lastData release];
 	lastData = [newStats retain];
 	return newStats;
-
+	
 } // netStatsForInterval
 
 @end

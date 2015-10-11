@@ -36,22 +36,22 @@
 @interface MenuMeterDiskExtra : NSMenuExtra {
 
 	// Menu Extra necessities
-	NSMenu 							*extraMenu;
-    MenuMeterDiskView 				*extraView;
+	NSMenu 						*extraMenu;
+	MenuMeterDiskView 				*extraView;
 	// Pref object
 	MenuMeterDefaults				*ourPrefs;
 	// Are we on Panther?
-	BOOL							isPantherOrLater, isSnowLeopardOrLater;
+	BOOL						isPantherOrLater, isSnowLeopardOrLater;
 	// The timer
-	NSTimer							*updateTimer;
+	NSTimer						*updateTimer;
 	// Info gatherers
 	MenuMeterDiskIO					*diskIOMonitor;
 	MenuMeterDiskSpace				*diskSpaceMonitor;
 	// Display state and images
-	NSImage							*idleImage, *readImage, *writeImage, *readwriteImage;
+	NSImage						*idleImage, *readImage, *writeImage, *readwriteImage;
 	DiskIOActivityType				displayedActivity;
 	// Theme support
-	NSColor							*fgMenuThemeColor;
+	NSColor						*fgMenuThemeColor;
 
 } // MenuMeterDiskExtra
 

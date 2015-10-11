@@ -56,7 +56,7 @@
 
 // Tab items in installer
 enum {
-	kInstallTab						= 0,
+	kInstallTab			= 0,
 	kUpdateTab
 };
 
@@ -67,13 +67,13 @@ enum {
 //
 ///////////////////////////////////////////////////////////////
 
-#define kUpdateTitle				@"Update"
-#define kWindowTitleFormat			@"%@ Installation"
+#define kUpdateTitle			@"Update"
+#define kWindowTitleFormat		@"%@ Installation"
 #define kUnsupportedOSErrorTitle 	@"Unsupported Mac OS X version"
-#define kUnsupportedOSError		 	@"MenuMeters can only be installed on Mac OS X 10.2 or later."
+#define kUnsupportedOSError		@"MenuMeters can only be installed on Mac OS X 10.2 or later."
 #define kInstallSuccessTitle		@"Installation Successful"
 #define kInstallSuccessMessage		@"MenuMeters was installed successfully. Open your System Preferences to start using MenuMeters."
-#define kUpdateSuccessTitle			@"Update Successful"
+#define kUpdateSuccessTitle		@"Update Successful"
 #define kUpdateSuccessMessage		@"MenuMeters was updated successfully. You must logout and relogin to use the new version of MenuMeters."
 #define kInstallFailureTitle		@"Installation Failure"
 #define kInstallFailureMessage		@"MenuMeters could not be installed. Please see the Console log for errors."
@@ -91,14 +91,17 @@ enum {
 //
 ///////////////////////////////////////////////////////////////
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 - (void)awakeFromNib {
 
 	// Update the window title
 	if ([self installVersion]) {
 		[installWindow setTitle:
-			[NSString stringWithFormat:
-				[[NSBundle mainBundle] localizedStringForKey:kWindowTitleFormat value:nil table:nil],
-					[self installVersion]]];
+		 [NSString stringWithFormat:
+		  [[NSBundle mainBundle] localizedStringForKey:kWindowTitleFormat value:nil table:nil],
+		  [self installVersion]]];
 	}
 
 	// Hide the tabs. We do this programatically instead
@@ -128,26 +131,26 @@ enum {
 	// Check for unsupported OS
 	if (!OSIsJaguarOrLater()) {
 		NSBeginCriticalAlertSheet(
-			// Title
-			[[NSBundle mainBundle] localizedStringForKey:kUnsupportedOSErrorTitle value:nil table:nil],
-			// Default button
-			nil,
-			// Alternate button
-			nil,
-			// Other button
-			nil,
-			// Window
-			installWindow,
-			// Delegate
-			nil,
-			// end elector
-			nil,
-			// dismiss selector
-			nil,
-			// context
-			nil,
-			// msg
-			[[NSBundle mainBundle] localizedStringForKey:kUnsupportedOSError value:nil table:nil]);
+					  // Title
+					  [[NSBundle mainBundle] localizedStringForKey:kUnsupportedOSErrorTitle value:nil table:nil],
+					  // Default button
+					  nil,
+					  // Alternate button
+					  nil,
+					  // Other button
+					  nil,
+					  // Window
+					  installWindow,
+					  // Delegate
+					  nil,
+					  // end elector
+					  nil,
+					  // dismiss selector
+					  nil,
+					  // context
+					  nil,
+					  // msg
+					  @"%@", [[NSBundle mainBundle] localizedStringForKey:kUnsupportedOSError value:nil table:nil]);
 		// Disable install
 		[installButton setEnabled:NO];
 	}
@@ -164,7 +167,7 @@ enum {
 
 	// Show the panel
 	[NSApp beginSheet:installProgressPanel modalForWindow:installWindow
-		modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	    modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
 	// Spin
 	[installProgress startAnimation:self];
@@ -207,77 +210,71 @@ enum {
 	if (installSuccess && [self packageInstalled]) {
 		if (isUpdate) {
 			NSBeginAlertSheet(
-				// Title
-				[[NSBundle mainBundle] localizedStringForKey:kUpdateSuccessTitle value:nil table:nil],
-				// Default button
-				nil,
-				// Alternate button
-				nil,
-				// Other button
-				nil,
-				// Window
-				installWindow,
-				// Delegate
-				self,
-				// end elector
-				@selector(installSheetDidEnd:returnCode:contextInfo:),
-				// dismiss selector
-				nil,
-				// context
-				nil,
-				// msg
-				[[NSBundle mainBundle]
-					localizedStringForKey:kUpdateSuccessMessage
-					value:nil table:nil]);
+					  // Title
+					  [[NSBundle mainBundle] localizedStringForKey:kUpdateSuccessTitle value:nil table:nil],
+					  // Default button
+					  nil,
+					  // Alternate button
+					  nil,
+					  // Other button
+					  nil,
+					  // Window
+					  installWindow,
+					  // Delegate
+					  self,
+					  // end elector
+					  @selector(installSheetDidEnd:returnCode:contextInfo:),
+					  // dismiss selector
+					  nil,
+					  // context
+					  nil,
+					  // msg
+					  @"%@", [[NSBundle mainBundle] localizedStringForKey:kUpdateSuccessMessage value:nil table:nil]);
 		} else {
 			NSBeginAlertSheet(
-				// Title
-				[[NSBundle mainBundle] localizedStringForKey:kInstallSuccessTitle value:nil table:nil],
-				// Default button
-				nil,
-				// Alternate button
-				nil,
-				// Other button
-				nil,
-				// Window
-				installWindow,
-				// Delegate
-				self,
-				// end elector
-				@selector(installSheetDidEnd:returnCode:contextInfo:),
-				// dismiss selector
-				nil,
-				// context
-				nil,
-				// msg
-				[[NSBundle mainBundle]
-					localizedStringForKey:kInstallSuccessMessage
-					value:nil table:nil]);
+					  // Title
+					  [[NSBundle mainBundle] localizedStringForKey:kInstallSuccessTitle value:nil table:nil],
+					  // Default button
+					  nil,
+					  // Alternate button
+					  nil,
+					  // Other button
+					  nil,
+					  // Window
+					  installWindow,
+					  // Delegate
+					  self,
+					  // end elector
+					  @selector(installSheetDidEnd:returnCode:contextInfo:),
+					  // dismiss selector
+					  nil,
+					  // context
+					  nil,
+					  // msg
+					  @"%@", [[NSBundle mainBundle] localizedStringForKey:kInstallSuccessMessage value:nil table:nil]);
 		}
 	} else {
 		NSBeginCriticalAlertSheet(
-			// Title
-			[[NSBundle mainBundle] localizedStringForKey:kInstallFailureTitle value:nil table:nil],
-			// Default button
-			nil,
-			// Alternate button
-			nil,
-			// Other button
-			nil,
-			// Window
-			installWindow,
-			// Delegate
-			self,
-			// end elector
-			@selector(installSheetDidEnd:returnCode:contextInfo:),
-			// dismiss selector
-			nil,
-			// context
-			nil,
-			// msg
-			[[NSBundle mainBundle]
-				localizedStringForKey:kInstallFailureMessage
-				value:nil table:nil]);
+					  // Title
+					  [[NSBundle mainBundle] localizedStringForKey:kInstallFailureTitle value:nil table:nil],
+					  // Default button
+					  nil,
+					  // Alternate button
+					  nil,
+					  // Other button
+					  nil,
+					  // Window
+					  installWindow,
+					  // Delegate
+					  self,
+					  // end elector
+					  @selector(installSheetDidEnd:returnCode:contextInfo:),
+					  // dismiss selector
+					  nil,
+					  // context
+					  nil,
+					  // msg
+					  @"%@", [[NSBundle mainBundle] localizedStringForKey:kInstallFailureMessage value:nil table:nil]);
 	}
 
 } // doInstall
@@ -286,7 +283,7 @@ enum {
 
 	// Show the panel
 	[NSApp beginSheet:installProgressPanel modalForWindow:installWindow
-		modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	    modalDelegate:nil didEndSelector:nil contextInfo:nil];
 	// Spin
 	[installProgress startAnimation:self];
 
@@ -316,55 +313,53 @@ enum {
 	// Prompt
 	if (uninstallSuccess && ![self packageInstalled]) {
 		NSBeginAlertSheet(
-			// Title
-			[[NSBundle mainBundle] localizedStringForKey:kUninstallSuccessTitle value:nil table:nil],
-			// Default button
-			nil,
-			// Alternate button
-			nil,
-			// Other button
-			nil,
-			// Window
-			installWindow,
-			// Delegate
-			self,
-			// end elector
-			@selector(installSheetDidEnd:returnCode:contextInfo:),
-			// dismiss selector
-			nil,
-			// context
-			nil,
-			// msg
-			[[NSBundle mainBundle]
-				localizedStringForKey:kUninstallSuccessMessage
-				value:nil table:nil]);
+				  // Title
+				  [[NSBundle mainBundle] localizedStringForKey:kUninstallSuccessTitle value:nil table:nil],
+				  // Default button
+				  nil,
+				  // Alternate button
+				  nil,
+				  // Other button
+				  nil,
+				  // Window
+				  installWindow,
+				  // Delegate
+				  self,
+				  // end elector
+				  @selector(installSheetDidEnd:returnCode:contextInfo:),
+				  // dismiss selector
+				  nil,
+				  // context
+				  nil,
+				  // msg
+				  @"%@", [[NSBundle mainBundle] localizedStringForKey:kUninstallSuccessMessage value:nil table:nil]);
 	} else {
 		NSBeginCriticalAlertSheet(
-			// Title
-			[[NSBundle mainBundle] localizedStringForKey:kUninstallFailureTitle value:nil table:nil],
-			// Default button
-			nil,
-			// Alternate button
-			nil,
-			// Other button
-			nil,
-			// Window
-			installWindow,
-			// Delegate
-			self,
-			// end elector
-			@selector(installSheetDidEnd:returnCode:contextInfo:),
-			// dismiss selector
-			nil,
-			// context
-			nil,
-			// msg
-			[[NSBundle mainBundle]
-				localizedStringForKey:kUninstallFailureMessage
-				value:nil table:nil]);
+					  // Title
+					  [[NSBundle mainBundle] localizedStringForKey:kUninstallFailureTitle value:nil table:nil],
+					  // Default button
+					  nil,
+					  // Alternate button
+					  nil,
+					  // Other button
+					  nil,
+					  // Window
+					  installWindow,
+					  // Delegate
+					  self,
+					  // end elector
+					  @selector(installSheetDidEnd:returnCode:contextInfo:),
+					  // dismiss selector
+					  nil,
+					  // context
+					  nil,
+					  // msg
+					  @"%@", [[NSBundle mainBundle] localizedStringForKey:kUninstallFailureMessage value:nil table:nil]);
 	}
 
 } // doUninstall
+
+#pragma GCC diagnostic pop
 
 - (void)quitInstaller:(id)sender {
 
@@ -450,7 +445,7 @@ enum {
 	}
 
 	// Get authorization
-    AuthorizationFlags authFlags = kAuthorizationFlagDefaults;
+	AuthorizationFlags authFlags = kAuthorizationFlagDefaults;
 	AuthorizationRef auth = NULL;
 	OSStatus err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, authFlags, &auth);
 	if (err != errAuthorizationSuccess) {
@@ -476,7 +471,10 @@ enum {
 
 	authFlags = kAuthorizationFlagDefaults;
 	FILE *outputPipe = NULL;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	err = AuthorizationExecuteWithPrivileges(auth, [toolPath fileSystemRepresentation], authFlags, execArgs, &outputPipe);
+#pragma GCC diagnostic pop
 	if (err != errAuthorizationSuccess) {
 		AuthorizationFree(auth, kAuthorizationFlagDefaults);
 		LOGERROR(@"Installer error: Unable to execute installer tool. Error: %d", err);
@@ -519,11 +517,14 @@ enum {
 - (void)killSysPrefsCache {
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:kSystemPrefCacheFile]) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		if (![[NSFileManager defaultManager] removeFileAtPath:kSystemPrefCacheFile handler:nil]) {
 			LOGERROR(@"Installer error: Unable to remove system preferences cache file.");
 		}
+#pragma GCC diagnostic pop
 	}
-
+	
 } // killSysPrefsCache
 
 ///////////////////////////////////////////////////////////////
@@ -533,10 +534,10 @@ enum {
 ///////////////////////////////////////////////////////////////
 
 - (NSString *)installVersion {
-
+	
 	return [[[NSBundle bundleWithPath: [[NSBundle mainBundle] pathForResource:kPrefPaneName ofType:@""]]
-				infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-
+		 infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+	
 } // installVersion
 
 @end

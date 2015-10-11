@@ -40,45 +40,45 @@
 @interface MenuMetersPref : NSPreferencePane {
 
 	// Our preferences
-	MenuMeterDefaults				*ourPrefs;
+	MenuMeterDefaults			*ourPrefs;
 	// System config framework hooks
-	SCDynamicStoreRef				scSession;
-	CFRunLoopSourceRef				scRunSource;
+	SCDynamicStoreRef			scSession;
+	CFRunLoopSourceRef			scRunSource;
 	// Main controls
-	IBOutlet NSTabView				*prefTabs;
+	IBOutlet NSTabView			*prefTabs;
 	IBOutlet NSTextField			*versionDisplay;
 	// CPU pane controls
-	IBOutlet NSButton				*cpuMeterToggle;
+	IBOutlet NSButton			*cpuMeterToggle;
 	IBOutlet NSPopUpButton			*cpuDisplayMode;
 	IBOutlet NSTextField			*cpuIntervalDisplay;
-	IBOutlet NSSlider				*cpuInterval;
+	IBOutlet NSSlider			*cpuInterval;
 	IBOutlet NSPopUpButton			*cpuPercentMode;
 	IBOutlet NSTextField			*cpuPercentModeLabel;
-	IBOutlet NSSlider				*cpuGraphWidth;
+	IBOutlet NSSlider			*cpuGraphWidth;
 	IBOutlet NSTextField			*cpuGraphWidthLabel;
-	IBOutlet NSButton				*cpuAvgProcs;
-	IBOutlet NSButton				*cpuPowerMate;
+	IBOutlet NSButton			*cpuAvgProcs;
+	IBOutlet NSButton			*cpuPowerMate;
 	IBOutlet NSPopUpButton			*cpuPowerMateMode;
 	IBOutlet NSColorWell			*cpuUserColor;
 	IBOutlet NSTextField			*cpuUserColorLabel;
 	IBOutlet NSColorWell			*cpuSystemColor;
 	IBOutlet NSTextField			*cpuSystemColorLabel;
 	// Disk pane controls
-	IBOutlet NSButton				*diskMeterToggle;
+	IBOutlet NSButton			*diskMeterToggle;
 	IBOutlet NSPopUpButton			*diskImageSet;
 	IBOutlet NSTextField			*diskIntervalDisplay;
-	IBOutlet NSSlider				*diskInterval;
+	IBOutlet NSSlider			*diskInterval;
 	IBOutlet NSPopUpButton			*diskSelectMode;
 	// Mem pane controls
-	IBOutlet NSButton				*memMeterToggle;
+	IBOutlet NSButton			*memMeterToggle;
 	IBOutlet NSPopUpButton			*memDisplayMode;
 	IBOutlet NSTextField			*memIntervalDisplay;
-	IBOutlet NSSlider				*memInterval;
-	IBOutlet NSButton				*memFreeUsedLabeling;
-	IBOutlet NSButton				*memPageIndicator;
-	IBOutlet NSSlider				*memGraphWidth;
+	IBOutlet NSSlider			*memInterval;
+	IBOutlet NSButton			*memFreeUsedLabeling;
+	IBOutlet NSButton			*memPageIndicator;
+	IBOutlet NSSlider			*memGraphWidth;
 	IBOutlet NSTextField			*memGraphWidthLabel;
-	IBOutlet NSTabView				*memColorTab;
+	IBOutlet NSTabView			*memColorTab;
 	IBOutlet NSColorWell			*memActiveColor;
 	IBOutlet NSColorWell			*memInactiveColor;
 	IBOutlet NSColorWell			*memWiredColor;
@@ -90,7 +90,7 @@
 	IBOutlet NSColorWell			*memPageoutColor;
 	IBOutlet NSTextField			*memPageoutColorLabel;
 	// Net pane controls
-	IBOutlet NSButton				*netMeterToggle;
+	IBOutlet NSButton			*netMeterToggle;
 	IBOutlet NSPopUpButton			*netDisplayMode;
 	IBOutlet NSPopUpButton			*netDisplayOrientation;
 	IBOutlet NSPopUpButton			*netPreferInterface;
@@ -99,12 +99,12 @@
 	IBOutlet NSPopUpButton			*netScaleCalc;
 	IBOutlet NSTextField			*netScaleCalcLabel;
 	IBOutlet NSTextField			*netIntervalDisplay;
-	IBOutlet NSSlider				*netInterval;
-	IBOutlet NSButton				*netThroughputLabeling;
-	IBOutlet NSButton				*netThroughput1KBound;
+	IBOutlet NSSlider			*netInterval;
+	IBOutlet NSButton			*netThroughputLabeling;
+	IBOutlet NSButton			*netThroughput1KBound;
 	IBOutlet NSPopUpButton			*netGraphStyle;
 	IBOutlet NSTextField			*netGraphStyleLabel;
-	IBOutlet NSSlider				*netGraphWidth;
+	IBOutlet NSSlider			*netGraphWidth;
 	IBOutlet NSTextField			*netGraphWidthLabel;
 	IBOutlet NSColorWell			*netTxColor;
 	IBOutlet NSColorWell			*netRxColor;

@@ -18,20 +18,20 @@ int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int whoCares);
 // SystemUIPlugin
 @interface NSMenuExtra : NSStatusItem
 {
-    NSBundle *_bundle;
-    NSMenu *_menu;
-    NSView *_view;
+	NSBundle *_bundle;
+	NSMenu *_menu;
+	NSView *_view;
 #ifdef __LP64__
-    double _length;
+	double _length;
 #else
-    float _length;
+	float _length;
 #endif
-    struct {
-        unsigned int customView:1;
-        unsigned int menuDown:1;
-        unsigned int reserved:30;
-    } _flags;
-    id _controller;
+	struct {
+		unsigned int customView:1;
+		unsigned int menuDown:1;
+		unsigned int reserved:30;
+	} _flags;
+	id _controller;
 }
 
 - (id)initWithBundle:(id)arg1;
@@ -85,10 +85,10 @@ int CoreMenuExtraRemoveMenuExtra(void *menuExtra, int whoCares);
 
 @interface NSMenuExtraView : NSView
 {
-    NSMenu *_menu;
-    NSMenuExtra *_menuExtra;
-    NSImage *_image;
-    NSImage *_alternateImage;
+	NSMenu *_menu;
+	NSMenuExtra *_menuExtra;
+	NSImage *_image;
+	NSImage *_alternateImage;
 }
 
 - (id)initWithFrame:(NSRect)arg1 menuExtra:(NSMenuExtra *)arg2;

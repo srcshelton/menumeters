@@ -34,13 +34,13 @@
 
 	// IOKit connection
 	mach_port_t        		masterPort;
-	IONotificationPortRef	notifyPort;
+	IONotificationPortRef		notifyPort;
 	CFRunLoopSourceRef		notifyRunSource;
 	io_iterator_t			blockDevicePublishedIterator,
-							blockDeviceTerminatedIterator,
-							blockDeviceIterator;
+					blockDeviceTerminatedIterator,
+					blockDeviceIterator;
 	// Tracking values
-	uint64_t				previousTotalRead, previousTotalWrite;
+	uint64_t			previousTotalRead, previousTotalWrite;
 
 } // MenuMeterDiskIO
 

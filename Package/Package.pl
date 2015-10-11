@@ -130,7 +130,7 @@ system("/usr/bin/find", "-d", $packageContentDir, "-type", "f", "-exec", "/bin/c
 system("/usr/bin/find", "-d", $packageContentDir, "-type", "d", "-exec", "/bin/chmod", "0755", "{}", ";");
 
 # Now strip the resources from all the bin files
-system("/usr/bin/find", "-d", $packageContentDir, "-type", "f", "-exec", "/Developer/Tools/SplitForks", "-s", "{}", ";");
+system("/usr/bin/find", "-d", $packageContentDir, "-type", "f", "-exec", "/usr/bin/SplitForks", "-s", "{}", ";");
 if ($?) {
 	die "Failed to strip resource forks from packaging dir. Error: $?\n";
 }
@@ -145,7 +145,7 @@ foreach my $itemPath (@packageItems) {
 		die "Package item \"$itemPath\" not found.\n";
 	}
 	if (grep { $_ eq $itemPath } @rsrcforkItems) {
-		system("/Developer/Tools/CpMac -r \"$itemPath\" \"$packageContentDir\"");
+		system("/usr/bin/CpMac -r \"$itemPath\" \"$packageContentDir\"");
 		if ($?) {
 			die "Failed to copy package item \"$itemPath\" to temp. Error: $?\n";
 		}
@@ -176,7 +176,7 @@ if ($sourceArchive) {
 	system("/usr/bin/find", "-d", $packageSourceDir, "-type", "f", "-exec", "/bin/chmod", "u+w,go-w", "{}", ";");
 	system("/usr/bin/find", "-d", $packageSourceDir, "-type", "d", "-exec", "/bin/chmod", "0755", "{}", ";");
 	# Now strip the resources from everything
-	system("/usr/bin/find", "-d", $packageSourceDir, "-type", "f", "-exec", "/Developer/Tools/SplitForks", "-s", "{}", ";");
+	system("/usr/bin/find", "-d", $packageSourceDir, "-type", "f", "-exec", "/usr/bin/SplitForks", "-s", "{}", ";");
 	if ($?) {
 		die "Failed to strip resource forks from sources. Error: $?\n";
 	}
@@ -243,15 +243,15 @@ foreach my $killItem (@killItems) {
 
 # Fix text and RTF types to prevent other apps from stealing them when LaunchServices
 # loses its mind (*sigh*)
-system("/usr/bin/find", "-d", $packageDir, "-name", "*.rtf", "-exec", "/Developer/Tools/SetFile", "-c", "ttxt", "-t", "RTF ", "{}", ";");
+system("/usr/bin/find", "-d", $packageDir, "-name", "*.rtf", "-exec", "/usr/bin/SetFile", "-c", "ttxt", "-t", "RTF ", "{}", ";");
 if ($?) {
 	die "RTF file type/creator fixup failed";
 }
-system("/usr/bin/find", "-d", $packageDir, "-name", "*.rtfd", "-exec", "/Developer/Tools/SetFile", "-c", "ttxt", "-t", "RTF ", "{}", ";");
+system("/usr/bin/find", "-d", $packageDir, "-name", "*.rtfd", "-exec", "/usr/bin/SetFile", "-c", "ttxt", "-t", "RTF ", "{}", ";");
 if ($?) {
 	die "RTFD file type/creator fixup failed";
 }
-system("/usr/bin/find", "-d", $packageDir, "-name", "*.txt", "-exec", "/Developer/Tools/SetFile", "-c", "ttxt", "-t", "TEXT", "{}", ";");
+system("/usr/bin/find", "-d", $packageDir, "-name", "*.txt", "-exec", "/usr/bin/SetFile", "-c", "ttxt", "-t", "TEXT", "{}", ";");
 if ($?) {
 	die "Text file type/creator fixup failed";
 }

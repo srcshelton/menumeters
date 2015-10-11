@@ -23,45 +23,10 @@
 
 #import "MenuMeterMemStats.h"
 
-///////////////////////////////////////////////////////////////
-//
-//	Definitions for 64-bit from 10.9+ so we can still use old SDKs.
-//
-///////////////////////////////////////////////////////////////
-#ifndef ELCAPITAN
-struct vm_statistics64 {
-	natural_t	free_count;
-	natural_t	active_count;
-	natural_t	inactive_count;
-	natural_t	wire_count;
-	uint64_t	zero_fill_count;
-	uint64_t	reactivations;
-	uint64_t	pageins;
-	uint64_t	pageouts;
-	uint64_t	faults;
-	uint64_t	cow_faults;
-	uint64_t	lookups;
-	uint64_t	hits;
-	uint64_t	purges;
-	natural_t	purgeable_count;
-	natural_t	speculative_count;
-	uint64_t	decompressions;
-	uint64_t	compressions;
-	uint64_t	swapins;
-	uint64_t	swapouts;
-	natural_t	compressor_page_count;
-	natural_t	throttled_count;
-	natural_t	external_page_count;
-	natural_t	internal_page_count;
-	uint64_t	total_uncompressed_pages_in_compressor;
-} __attribute__((aligned(8)));
-typedef struct vm_statistics64	vm_statistics64_data_t;
-typedef integer_t	*host_info64_t;
-#endif
 typedef kern_return_t (*host_statistics64_Ptr)(host_t host_priv,
-											   host_flavor_t flavor,
-											   host_info64_t host_info64_out,
-											   mach_msg_type_number_t *host_info64_outCnt);
+					       host_flavor_t flavor,
+					       host_info64_t host_info64_out,
+					       mach_msg_type_number_t *host_info64_outCnt);
 // host_statistics64 dynamic lookup
 static host_statistics64_Ptr host_statistics64_Impl = NULL;
 
@@ -192,31 +157,31 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 	totalRAM = active + inactive + wired + free;
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithDouble:(double)totalRAM / 1048576], @"totalmb",
-				// There has been much confusion amongst users over what "Used" and "Free" meant.
-				// In older versions "Used" included inactive pages, which tends to grow
-				// over time from lazy reclamation. This led to reports of "leaks".
-				// Current implementation seems to better match actual expectations. even though
-				// its not exactly correct (inactive pages may be modified).
-				[NSNumber numberWithDouble:(double)(free + inactive) / 1048576], @"freemb",
-				[NSNumber numberWithDouble:(double)(active + wired) / 1048576], @"usedmb",
-				[NSNumber numberWithDouble:(double)active / 1048576], @"activemb",
-				[NSNumber numberWithDouble:(double)inactive / 1048576], @"inactivemb",
-				[NSNumber numberWithDouble:(double)wired / 1048576], @"wiremb",
-				[NSNumber numberWithDouble:(double)free / 1048576], @"freepagemb",
-				// No compressed pages
-				[NSNumber numberWithDouble:0.0], @"compressedmb",
-				[NSNumber numberWithDouble:0.0], @"uncompressedmb",
-				// Again, double casts to block sign extension
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.hits)], @"hits",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.lookups)], @"lookups",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.pageins)], @"pageins",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.pageouts)], @"pageouts",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.faults)], @"faults",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.cow_faults)], @"cowfaults",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)deltaPageIn], @"deltapageins",
-				[NSNumber numberWithUnsignedLongLong:(uint64_t)deltaPageOut], @"deltapageouts",
-				nil];
+		[NSNumber numberWithDouble:(double)totalRAM / 1048576], @"totalmb",
+		// There has been much confusion amongst users over what "Used" and "Free" meant.
+		// In older versions "Used" included inactive pages, which tends to grow
+		// over time from lazy reclamation. This led to reports of "leaks".
+		// Current implementation seems to better match actual expectations. even though
+		// its not exactly correct (inactive pages may be modified).
+		[NSNumber numberWithDouble:(double)(free + inactive) / 1048576], @"freemb",
+		[NSNumber numberWithDouble:(double)(active + wired) / 1048576], @"usedmb",
+		[NSNumber numberWithDouble:(double)active / 1048576], @"activemb",
+		[NSNumber numberWithDouble:(double)inactive / 1048576], @"inactivemb",
+		[NSNumber numberWithDouble:(double)wired / 1048576], @"wiremb",
+		[NSNumber numberWithDouble:(double)free / 1048576], @"freepagemb",
+		// No compressed pages
+		[NSNumber numberWithDouble:0.0], @"compressedmb",
+		[NSNumber numberWithDouble:0.0], @"uncompressedmb",
+		// Again, double casts to block sign extension
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.hits)], @"hits",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.lookups)], @"lookups",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.pageins)], @"pageins",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.pageouts)], @"pageouts",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.faults)], @"faults",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)((natural_t)vmStats32.cow_faults)], @"cowfaults",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)deltaPageIn], @"deltapageins",
+		[NSNumber numberWithUnsignedLongLong:(uint64_t)deltaPageOut], @"deltapageouts",
+		nil];
 } // memStats32
 
 - (NSDictionary *)memStats64 {
@@ -257,33 +222,33 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 	totalRAM = active + inactive + wired + free + compressed;
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithDouble:(double)totalRAM / 1048576], @"totalmb",
-				// See discussion in 32 bit code for historical difference between free/used.
-				// By that standard compressed pages are probably active (OS compressing
-				// rather than purging).
-				[NSNumber numberWithDouble:(double)(free + inactive) / 1048576], @"freemb",
-				[NSNumber numberWithDouble:(double)(active + wired  + compressed) / 1048576], @"usedmb",
-				[NSNumber numberWithDouble:(double)active / 1048576], @"activemb",
-				[NSNumber numberWithDouble:(double)inactive / 1048576], @"inactivemb",
-				[NSNumber numberWithDouble:(double)wired / 1048576], @"wiremb",
-				[NSNumber numberWithDouble:(double)free / 1048576], @"freepagemb",
-				[NSNumber numberWithDouble:(double)compressed / 1048576], @"compressedmb",
-				[NSNumber numberWithDouble:(double)uncompressed / 1048576], @"uncompressedmb",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.hits], @"hits",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.lookups], @"lookups",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.pageins], @"pageins",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.pageouts], @"pageouts",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.faults], @"faults",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.cow_faults], @"cowfaults",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.purges], @"purges",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.purgeable_count], @"purgeable_count",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.speculative_count], @"speculative_count",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.decompressions], @"decompressions",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.compressions], @"compressions",
-				[NSNumber numberWithUnsignedLongLong:vmStats64.compressions], @"compressions",
-				[NSNumber numberWithUnsignedLongLong:deltaPageIn], @"deltapageins",
-				[NSNumber numberWithUnsignedLongLong:deltaPageOut], @"deltapageouts",
-				nil];
+		[NSNumber numberWithDouble:(double)totalRAM / 1048576], @"totalmb",
+		// See discussion in 32 bit code for historical difference between free/used.
+		// By that standard compressed pages are probably active (OS compressing
+		// rather than purging).
+		[NSNumber numberWithDouble:(double)(free + inactive) / 1048576], @"freemb",
+		[NSNumber numberWithDouble:(double)(active + wired  + compressed) / 1048576], @"usedmb",
+		[NSNumber numberWithDouble:(double)active / 1048576], @"activemb",
+		[NSNumber numberWithDouble:(double)inactive / 1048576], @"inactivemb",
+		[NSNumber numberWithDouble:(double)wired / 1048576], @"wiremb",
+		[NSNumber numberWithDouble:(double)free / 1048576], @"freepagemb",
+		[NSNumber numberWithDouble:(double)compressed / 1048576], @"compressedmb",
+		[NSNumber numberWithDouble:(double)uncompressed / 1048576], @"uncompressedmb",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.hits], @"hits",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.lookups], @"lookups",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.pageins], @"pageins",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.pageouts], @"pageouts",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.faults], @"faults",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.cow_faults], @"cowfaults",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.purges], @"purges",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.purgeable_count], @"purgeable_count",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.speculative_count], @"speculative_count",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.decompressions], @"decompressions",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.compressions], @"compressions",
+		[NSNumber numberWithUnsignedLongLong:vmStats64.compressions], @"compressions",
+		[NSNumber numberWithUnsignedLongLong:deltaPageIn], @"deltapageins",
+		[NSNumber numberWithUnsignedLongLong:deltaPageOut], @"deltapageouts",
+		nil];
 } // memStats64
 
 - (NSDictionary *)memStats {
@@ -314,14 +279,21 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 		NSString *currentFile = nil;
 		while ((currentFile = [dirEnum nextObject])) {
 			NSString *currentFileFullPath = [swapPath stringByAppendingPathComponent:currentFile];
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 			if ([currentFile hasPrefix:swapPrefix] &&
-					[fm fileExistsAtPath:currentFileFullPath isDirectory:&isDir] &&
-					!isDir) {
+			    [fm fileExistsAtPath:currentFileFullPath isDirectory:&isDir] &&
+			    !isDir) {
 				swapCount++;
 				swapSize += [[[fm fileAttributesAtPath:currentFileFullPath
-										  traverseLink:NO]
-								objectForKey:NSFileSize] unsignedLongLongValue];
+							  traverseLink:NO]
+					      objectForKey:NSFileSize] unsignedLongLongValue];
 			}
+
+#pragma GCC diagnostic pop
+
 		}
 	}
 
@@ -345,13 +317,13 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 	}
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-				swapPath, @"swappath",
-				[NSNumber numberWithUnsignedInt:swapCount], @"swapcount",
-				[NSNumber numberWithUnsignedInt:peakSwapFiles], @"swapcountpeak",
-				[NSNumber numberWithUnsignedLongLong:swapSize / 1048576], @"swapsizemb",
-				[NSNumber numberWithUnsignedLongLong:swapUsed / 1048576], @"swapusedmb",
-				[NSNumber numberWithBool:encrypted], @"swapencrypted",
-				nil];
+		swapPath, @"swappath",
+		[NSNumber numberWithUnsignedInt:swapCount], @"swapcount",
+		[NSNumber numberWithUnsignedInt:peakSwapFiles], @"swapcountpeak",
+		[NSNumber numberWithUnsignedLongLong:swapSize / 1048576], @"swapsizemb",
+		[NSNumber numberWithUnsignedLongLong:swapUsed / 1048576], @"swapusedmb",
+		[NSNumber numberWithBool:encrypted], @"swapencrypted",
+		nil];
 
 } // swapStats
 
@@ -380,17 +352,17 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 	NSMutableString *swapFullPath = [NSMutableString string];
 	BOOL taskLaunched = NO;
 	NS_DURING
-		[psTask launch];
-		while ([psTask isRunning]) {
-			[psOutput appendString:[[[NSString alloc] initWithData:[psHandle availableData]
-														   encoding:NSUTF8StringEncoding] autorelease]];
-			usleep(250000);
-		}
+	[psTask launch];
+	while ([psTask isRunning]) {
+		[psOutput appendString:[[[NSString alloc] initWithData:[psHandle availableData]
+							      encoding:NSUTF8StringEncoding] autorelease]];
+		usleep(250000);
+	}
 	NS_HANDLER
-		// Catch
-		NSLog(@"MenuMeterMemStats unable to launch '/bin/ps'.");
-		taskLaunched = NO;
-		psOutput = nil;
+	// Catch
+	NSLog(@"MenuMeterMemStats unable to launch '/bin/ps'.");
+	taskLaunched = NO;
+	psOutput = nil;
 	NS_ENDHANDLER
 	if (psOutput) {
 		NSArray *psSplit = [psOutput componentsSeparatedByString:@"\n"];
@@ -399,7 +371,7 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 		while ((psLine = [psLineWalk nextObject])) {
 			NSArray *psArgSplit = [psLine componentsSeparatedByString:@" "];
 			if (([psArgSplit containsObject:@"dynamic_pager"] || [psArgSplit containsObject:@"/sbin/dynamic_pager"]) &&
-					[psArgSplit containsObject:@"-F"]) {
+			    [psArgSplit containsObject:@"-F"]) {
 				// Consume all arguments till the next arg. This would fail
 				// on the path "/my/silly -swappath/" but is that really something
 				// we need to worry about?
@@ -424,7 +396,7 @@ static host_statistics64_Ptr host_statistics64_Impl = NULL;
 		swapPath = [kDefaultSwapPath retain];
 		swapPrefix = [kDefaultSwapPrefix retain];
 	}
-
+	
 } // initializeSwapPath
 
 @end

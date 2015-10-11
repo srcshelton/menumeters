@@ -83,15 +83,15 @@ static void BlockDeviceChanged(void *ref, io_iterator_t iterator) {
 
 	// Install notifications for block storage devices
 	err = IOServiceAddMatchingNotification(notifyPort,  kIOPublishNotification,
-										   IOServiceMatching(kIOBlockStorageDriverClass),
-										   BlockDeviceChanged, self, &blockDevicePublishedIterator);
+					       IOServiceMatching(kIOBlockStorageDriverClass),
+					       BlockDeviceChanged, self, &blockDevicePublishedIterator);
 	if (err != KERN_SUCCESS) {
 		[self release];
 		return nil;
 	}
 	err = IOServiceAddMatchingNotification(notifyPort, kIOTerminatedNotification,
-										   IOServiceMatching(kIOBlockStorageDriverClass),
-										   BlockDeviceChanged, self, &blockDeviceTerminatedIterator);
+					       IOServiceMatching(kIOBlockStorageDriverClass),
+					       BlockDeviceChanged, self, &blockDeviceTerminatedIterator);
 	if (err != KERN_SUCCESS) {
 		[self release];
 		return nil;
@@ -133,8 +133,8 @@ static void BlockDeviceChanged(void *ref, io_iterator_t iterator) {
 	// Check that the iterator is still good, if not get a new one
 	if (!blockDeviceIterator) {
 		kern_return_t err = IOServiceGetMatchingServices(masterPort,
-														 IOServiceMatching(kIOBlockStorageDriverClass),
-														 &blockDeviceIterator);
+								 IOServiceMatching(kIOBlockStorageDriverClass),
+								 &blockDeviceIterator);
 		if (err != KERN_SUCCESS) {
 			return kDiskActivityIdle;  // Best we can do
 		}
@@ -146,22 +146,22 @@ static void BlockDeviceChanged(void *ref, io_iterator_t iterator) {
 	uint64_t totalRead = 0, totalWrite = 0;
 	while ((driveEntry = IOIteratorNext(blockDeviceIterator))) {
 
- 		// Get the statistics for this drive
+		// Get the statistics for this drive
 		CFDictionaryRef statistics = IORegistryEntryCreateCFProperty(driveEntry,
-																	 CFSTR(kIOBlockStorageDriverStatisticsKey),
-																	 kCFAllocatorDefault,
-																	 kNilOptions);
+									     CFSTR(kIOBlockStorageDriverStatisticsKey),
+									     kCFAllocatorDefault,
+									     kNilOptions);
 		// If we got the statistics block for this device then we can add it to our totals
 		if (statistics) {
 			// Get total bytes read
 			NSNumber *statNumber = (NSNumber *)[(NSDictionary *)statistics objectForKey:
-													(NSString *)CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey)];
+							    (NSString *)CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey)];
 			if (statNumber) {
 				totalRead += [statNumber unsignedLongLongValue];
 			}
 			// Bytes written
 			statNumber = (NSNumber *)[(NSDictionary *)statistics objectForKey:
-													(NSString *)CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey)];
+						  (NSString *)CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey)];
 			if (statNumber) {
 				totalWrite += [statNumber unsignedLongLongValue];
 			}

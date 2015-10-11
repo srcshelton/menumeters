@@ -28,9 +28,9 @@
 ///////////////////////////////////////////////////////////////
 
 // Widths of the various displays
-#define kCPUPercentDisplayBorderWidth		2
+#define kCPUPercentDisplayBorderWidth			2
 #define kCPUThermometerDisplayWidth			10
-#define kCPUDisplayMultiProcGapWidth		5
+#define kCPUDisplayMultiProcGapWidth			5
 
 // Menu item indexes
 #define kCPUUptimeInfoMenuIndex				3
@@ -44,27 +44,27 @@
 ///////////////////////////////////////////////////////////////
 
 // Pref dictionary keys
-#define kCPUIntervalPref					@"CPUInterval"
-#define kCPUDisplayModePref					@"CPUDisplayMode"
+#define kCPUIntervalPref				@"CPUInterval"
+#define kCPUDisplayModePref				@"CPUDisplayMode"
 #define kCPUPercentDisplayPref				@"CPUPercentDisplayMode"
-#define kCPUGraphLengthPref					@"CPUGraphLength"
-#define kCPUAvgAllProcsPref					@"CPUAverageMultiProcs"
-#define kCPUSystemColorPref					@"CPUSystemColor"
-#define kCPUUserColorPref					@"CPUUserColor"
-#define kCPUPowerMatePref					@"CPUPowerMate"
-#define kCPUPowerMateMode					@"CPUPowerMateMode"
+#define kCPUGraphLengthPref				@"CPUGraphLength"
+#define kCPUAvgAllProcsPref				@"CPUAverageMultiProcs"
+#define kCPUSystemColorPref				@"CPUSystemColor"
+#define kCPUUserColorPref				@"CPUUserColor"
+#define kCPUPowerMatePref				@"CPUPowerMate"
+#define kCPUPowerMateMode				@"CPUPowerMateMode"
 
 // Display modes
 enum {
-	kCPUDisplayPercent						= 1,
-	kCPUDisplayGraph						= 2,
-	kCPUDisplayThermometer					= 4
+	kCPUDisplayPercent				= 1,
+	kCPUDisplayGraph				= 2,
+	kCPUDisplayThermometer				= 4
 };
-#define kCPUDisplayDefault					kCPUDisplayPercent
+#define kCPUDisplayDefault				kCPUDisplayPercent
 
 // Percent display modes
 enum {
-	kCPUPercentDisplayLarge					= 0,
+	kCPUPercentDisplayLarge				= 0,
 	kCPUPercentDisplaySmall,
 	kCPUPercentDisplaySplit
 };
@@ -72,7 +72,7 @@ enum {
 
 // PowerMate modes
 enum {
-	kCPUPowerMateGlow						= 0,
+	kCPUPowerMateGlow				= 0,
 	kCPUPowerMatePulse,
 	kCPUPowerMateInverseGlow,
 	kCPUPowerMateInversePulse
@@ -85,8 +85,8 @@ enum {
 #define kCPUUpdateIntervalDefault			1.0f
 
 // Graph display
-#define kCPUGraphWidthMin					11
-#define kCPUGraphWidthMax					88
+#define kCPUGraphWidthMin				11
+#define kCPUGraphWidthMax				88
 #define kCPUGraphWidthDefault				33
 
 // Multiproc averaging
@@ -96,12 +96,7 @@ enum {
 #define kCPUPowerMateDefault				NO
 
 // Colors
-											// Maraschino
+// Maraschino
 #define kCPUSystemColorDefault				[NSColor colorWithDeviceRed:1.0f green:0.0f blue:0.0f alpha:1.0f]
-											// Midnight blue
+// Midnight blue
 #define kCPUUserColorDefault				[NSColor colorWithDeviceRed:0.0f green:0.0f blue:0.5f alpha:1.0f]
-
-
-
-
-

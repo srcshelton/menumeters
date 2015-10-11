@@ -40,11 +40,11 @@
 	SCDynamicStoreRef			scSession;
 	CFRunLoopSourceRef			scRunSource;
 	// Mach port for IOKit
-	mach_port_t					masterPort;
+	mach_port_t				masterPort;
 	// Caches of current data
-	NSArray						*cachedInterfaceDetails;
-	NSString					*cachedPrimaryName;
-	NSString					*cachedPrimaryService;
+	NSArray					*cachedInterfaceDetails;
+	NSString				*cachedPrimaryName;
+	NSString				*cachedPrimaryService;
 	NSMutableDictionary			*cachedServiceToName;
 	NSMutableDictionary			*cachedNameToService;
 	NSMutableDictionary			*cachedServiceSpeed;

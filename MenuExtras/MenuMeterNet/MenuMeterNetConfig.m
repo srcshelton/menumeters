@@ -83,25 +83,25 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	scContext.release = NULL;
 	scContext.copyDescription = NULL;
 	scSession = SCDynamicStoreCreate(kCFAllocatorDefault,
-									 (CFStringRef)[self description],
-									 scChangeCallback,
-									 &scContext);
+					 (CFStringRef)[self description],
+					 scChangeCallback,
+					 &scContext);
 	if (!scSession) {
 		NSLog(@"MenuMeterNetConfig unable to establish configd session.");
 		[self release];
 		return nil;
 	}
 	if (!SCDynamicStoreSetNotificationKeys(scSession,
-										   (CFArrayRef)[NSArray arrayWithObjects:
-															@"State:/Network/Global/IPv4",
-															@"Setup:/Network/Global/IPv4",
-															@"State:/Network/Interface", nil],
-										   (CFArrayRef)[NSArray arrayWithObjects:
-														@"State:/Network/Interface.*", nil])) {
-		NSLog(@"MenuMeterNetConfig unable to install notification keys.");
-		[self release];
-		return nil;
-	}
+					       (CFArrayRef)[NSArray arrayWithObjects:
+							    @"State:/Network/Global/IPv4",
+							    @"Setup:/Network/Global/IPv4",
+							    @"State:/Network/Interface", nil],
+					       (CFArrayRef)[NSArray arrayWithObjects:
+							    @"State:/Network/Interface.*", nil])) {
+						       NSLog(@"MenuMeterNetConfig unable to install notification keys.");
+						       [self release];
+						       return nil;
+					       }
 	scRunSource = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, scSession, 0);
 	if (!scRunSource) {
 		NSLog(@"MenuMeterNetConfig unable to get notification keys run loop source.");
@@ -178,17 +178,17 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 		NSString *primaryName = [self primaryInterfaceName];
 		if (service && (statName || primaryName)) {
 			return [NSDictionary dictionaryWithObjectsAndKeys:
-						service,
-						@"service",
-						(statName ? statName : primaryName),
-						@"statname",
-						[self speedForServiceID:service],
-						@"speed",
-						kNetPrimaryInterface,
-						@"name",
-						[NSNumber numberWithBool:[self interfaceNameIsUp:(statName ? statName : primaryName)]],
-						@"interfaceup",
-						nil];
+				service,
+				@"service",
+				(statName ? statName : primaryName),
+				@"statname",
+				[self speedForServiceID:service],
+				@"speed",
+				kNetPrimaryInterface,
+				@"name",
+				[NSNumber numberWithBool:[self interfaceNameIsUp:(statName ? statName : primaryName)]],
+				@"interfaceup",
+				nil];
 		} else {
 			return nil;
 		}
@@ -198,17 +198,17 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	NSString *statName = [self underlyingInterfaceNameForServiceID:service];
 	if (service && statName) {
 		return [NSDictionary dictionaryWithObjectsAndKeys:
-					service,
-					@"service",
-					statName,
-					@"statname",
-					[self speedForServiceID:service],
-					@"speed",
-					name,
-					@"name",
-					[NSNumber numberWithBool:[self interfaceNameIsUp:statName]],
-					@"interfaceup",
-					nil];
+			service,
+			@"service",
+			statName,
+			@"statname",
+			[self speedForServiceID:service],
+			@"speed",
+			name,
+			@"name",
+			[NSNumber numberWithBool:[self interfaceNameIsUp:statName]],
+			@"interfaceup",
+			nil];
 	}
 	return nil;
 
@@ -238,7 +238,7 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	if (!servicesDict) return nil;
 
 	// Get the array of services
-	NSMutableArray *allServices = [[servicesDict objectForKey:@"ServiceOrder"] mutableCopy];
+	NSMutableArray *allServices = [[[servicesDict objectForKey:@"ServiceOrder"] mutableCopy] autorelease];
 	if (!allServices) return nil;
 
 	// Reorder services so the primary is first if possible
@@ -266,13 +266,13 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 		}
 		// Get the interface name
 		NSDictionary *serviceDict = [self sysconfigValueForKey:
-										[NSString stringWithFormat:@"Setup:/Network/Service/%@", serviceID]];
+					     [NSString stringWithFormat:@"Setup:/Network/Service/%@", serviceID]];
 		if ([serviceDict objectForKey:@"UserDefinedName"]) {
 			[interfaceDetail setObject:[serviceDict objectForKey:@"UserDefinedName"] forKey:@"name"];
 		}
 		// Get interface details
 		NSDictionary *interfaceDict = [self sysconfigValueForKey:
-											[NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
+					       [NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
 		if (!interfaceDict) {
 			// If the details aren't present then skip, we can learn nothing here
 			continue;
@@ -299,7 +299,7 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 		}
 		// Now get info that may or may not be there, starting with PPP name
 		NSDictionary *pppDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
+					 [NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
 		if ([pppDict objectForKey:@"InterfaceName"]) {
 			[interfaceDetail setObject:[pppDict objectForKey:@"InterfaceName"] forKey:@"devicepppname"];
 		}
@@ -313,34 +313,34 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 		}
 		// IPv4 info
 		NSDictionary *ipDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"State:/Network/Service/%@/IPv4", serviceID]];
+					[NSString stringWithFormat:@"State:/Network/Service/%@/IPv4", serviceID]];
 		if ([ipDict objectForKey:@"Addresses"]) {
 			[interfaceDetail setObject:[ipDict objectForKey:@"Addresses"] forKey:@"ipv4addresses"];
 		}
 		// IPv6 info
 		if ([interfaceDetail objectForKey:@"devicename"]) {
 			ipDict = [self sysconfigValueForKey:
-						[NSString stringWithFormat:@"State:/Network/Interface/%@/IPv6",
-							[interfaceDetail objectForKey:@"devicename"]]];
+				  [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv6",
+				   [interfaceDetail objectForKey:@"devicename"]]];
 			if ([ipDict objectForKey:@"Addresses"]) {
 				[interfaceDetail setObject:[ipDict objectForKey:@"Addresses"] forKey:@"ipv6addresses"];
 			}
 		}
 		// Appletalk
 		NSDictionary *appletalkDict = [self sysconfigValueForKey:
-											[NSString stringWithFormat:@"State:/Network/Interface/%@/AppleTalk",
-												[interfaceDetail objectForKey:@"devicename"]]];
+					       [NSString stringWithFormat:@"State:/Network/Interface/%@/AppleTalk",
+						[interfaceDetail objectForKey:@"devicename"]]];
 		if ([appletalkDict objectForKey:@"NetworkID"] &&
-				[appletalkDict objectForKey:@"NodeID"] &&
-				[appletalkDict objectForKey:@"DefaultZone"]) {
+		    [appletalkDict objectForKey:@"NodeID"] &&
+		    [appletalkDict objectForKey:@"DefaultZone"]) {
 			[interfaceDetail setObject:[appletalkDict objectForKey:@"NetworkID"] forKey:@"appletalknetid"];
 			[interfaceDetail setObject:[appletalkDict objectForKey:@"NodeID"] forKey:@"appletalknodeid"];
 			[interfaceDetail setObject:[appletalkDict objectForKey:@"DefaultZone"] forKey:@"appletalkzone"];
 		}
 		// Link status
 		NSDictionary *linkDict = [self sysconfigValueForKey:
-										[NSString stringWithFormat:@"State:/Network/Interface/%@/Link",
-											[interfaceDetail objectForKey:@"devicename"]]];
+					  [NSString stringWithFormat:@"State:/Network/Interface/%@/Link",
+					   [interfaceDetail objectForKey:@"devicename"]]];
 		if ([linkDict objectForKey:@"Active"]) {
 			[interfaceDetail setObject:[linkDict objectForKey:@"Active"] forKey:@"linkactive"];
 		}
@@ -354,14 +354,14 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 			} else if ([[interfaceDetail objectForKey:@"devicename"] isEqualToString:@"modem"]) {
 				// Modem data can be had from config framework
 				NSDictionary *modemDict = [self sysconfigValueForKey:
-												[NSString stringWithFormat:@"State:/Network/Service/%@/Modem", serviceID]];
+							   [NSString stringWithFormat:@"State:/Network/Service/%@/Modem", serviceID]];
 				if ([modemDict objectForKey:@"ConnectSpeed"]) {
 					// Its a modem, but is it connected?
 					pppDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
+						   [NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
 					if ([pppDict objectForKey:@"Status"] &&
-							([[pppDict objectForKey:@"Status"] intValue] == PPP_RUNNING) &&
-							[pppDict objectForKey:@"ConnectSpeed"]) {
+					    ([[pppDict objectForKey:@"Status"] intValue] == PPP_RUNNING) &&
+					    [pppDict objectForKey:@"ConnectSpeed"]) {
 						[interfaceDetail setObject:[pppDict objectForKey:@"ConnectSpeed"] forKey:@"linkspeed"];
 					}
 				}
@@ -429,9 +429,9 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 
 	// Get interface details
 	NSDictionary *interfaceDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
+				       [NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
 	NSDictionary *pppDict = [self sysconfigValueForKey:
-								[NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
+				 [NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
 	// Check for PPP first
 	if ([pppDict objectForKey:@"InterfaceName"]) {
 		[cachedServiceToName setObject:[pppDict objectForKey:@"InterfaceName"] forKey:serviceID];
@@ -460,7 +460,7 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	NSDictionary *ipDict = [self sysconfigValueForKey:@"Setup:/Network/Global/IPv4"];
 	if (!ipDict) return nil;
 	// Get the array of services
-	NSMutableArray *allServices = [[ipDict objectForKey:@"ServiceOrder"] mutableCopy];
+	NSMutableArray *allServices = [[[ipDict objectForKey:@"ServiceOrder"] mutableCopy] autorelease];
 	if (!allServices) return nil;
 
 	// Set up the enumerator and loop the services
@@ -469,13 +469,13 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	while ((serviceID = [servicesEnum nextObject])) {
 		// Get interface details
 		NSDictionary *interfaceDict = [self sysconfigValueForKey:
-										[NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
+					       [NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
 		if ([[interfaceDict objectForKey:@"DeviceName"] isEqualToString:interfaceName]) {
 			[cachedNameToService setObject:serviceID forKey:interfaceName];
 			return serviceID;
 		}
 		NSDictionary *pppDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
+					 [NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
 		if ([[pppDict objectForKey:@"InterfaceName"] isEqualToString:interfaceName]) {
 			[cachedNameToService setObject:serviceID forKey:interfaceName];
 			return serviceID;
@@ -543,9 +543,9 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	// PPPoE connections. Try to work around by finding the underlying ethernet
 	// interface for these connections.
 	NSDictionary *interfaceDict = [self sysconfigValueForKey:
-										[NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
+				       [NSString stringWithFormat:@"Setup:/Network/Service/%@/Interface", serviceID]];
 	NSDictionary *pppDict = [self sysconfigValueForKey:
-								[NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
+				 [NSString stringWithFormat:@"State:/Network/Service/%@/PPP", serviceID]];
 	// Check for PPP name
 	if ([pppDict objectForKey:@"InterfaceName"]) {
 		// There appears to be a bug in pppconfd's handling of bytes sent for
@@ -584,7 +584,7 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	if ([interfaceName hasPrefix:@"en"]) {
 		// Ethernet
 		NSDictionary *linkDict = [self sysconfigValueForKey:
-									[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", interfaceName]];
+					  [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", interfaceName]];
 		if ([linkDict objectForKey:@"Active"]) {
 			[cachedInterfaceUp setObject:[linkDict objectForKey:@"Active"] forKey:interfaceName];
 			return [[linkDict objectForKey:@"Active"] boolValue];
@@ -619,8 +619,8 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	// Get the speed from IOKit
 	io_iterator_t iterator;
 	IOServiceGetMatchingServices(masterPort,
-								 IOBSDNameMatching(masterPort, kNilOptions, [bsdInterface UTF8String]),
-								 &iterator);
+				     IOBSDNameMatching(masterPort, kNilOptions, [bsdInterface UTF8String]),
+				     &iterator);
 	// If we didn't get an iterator guess 10Mbit
 	if (!iterator) return [NSNumber numberWithLong:kInterfaceDefaultSpeed];
 
@@ -638,9 +638,9 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 		return [NSNumber numberWithLong:kInterfaceDefaultSpeed];
 	}
 	NSNumber *linkSpeed = (NSNumber *)IORegistryEntryCreateCFProperty(controllerService,
-																	  CFSTR(kIOLinkSpeed),
-																	  kCFAllocatorDefault,
-																	  kNilOptions);
+									  CFSTR(kIOLinkSpeed),
+									  kCFAllocatorDefault,
+									  kNilOptions);
 	IOObjectRelease(controllerService);
 	IOObjectRelease(regEntry);
 	IOObjectRelease(iterator);
@@ -688,7 +688,7 @@ static void scChangeCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, vo
 	cachedUnderlyingInterface = nil;
 	[cachedInterfaceUp release];
 	cachedInterfaceUp = nil;
-
+	
 } // clearCaches
 
 @end

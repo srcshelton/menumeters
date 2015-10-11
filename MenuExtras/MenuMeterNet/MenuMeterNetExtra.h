@@ -37,13 +37,13 @@
 @interface MenuMeterNetExtra : NSMenuExtra {
 
 	// Menu Extra necessities
-	NSMenu 							*extraMenu;
-    MenuMeterNetView 				*extraView;
+	NSMenu 						*extraMenu;
+	MenuMeterNetView 				*extraView;
 	// Is this Panther?
-	BOOL							isPantherOrLater,
-									isLeopardOrLater;
+	BOOL						isPantherOrLater,
+							isLeopardOrLater;
 	// The timer
-	NSTimer							*updateTimer;
+	NSTimer						*updateTimer;
 	// Pref object
 	MenuMeterDefaults				*ourPrefs;
 	// Info gatherers/controllers
@@ -55,15 +55,15 @@
 	// Localizable strings
 	NSDictionary					*localizedStrings;
 	// Cached colors
-	NSColor							*txColor, *rxColor, *inactiveColor;
+	NSColor						*txColor, *rxColor, *inactiveColor;
 	// Cached bezier paths
 	NSBezierPath					*upArrow, *downArrow;
 	// Cached prerendered text
-	NSImage							*throughputLabel, *inactiveThroughputLabel;
+	NSImage						*throughputLabel, *inactiveThroughputLabel;
 	// The length of the menu item
-	float							menuWidth;
+	float						menuWidth;
 	// Historical data samples and current interface config
-	NSDate							*lastSampleDate;
+	NSDate						*lastSampleDate;
 	NSMutableArray					*netHistoryData, *netHistoryIntervals;
 	NSDictionary					*preferredInterfaceConfig;
 	// Cached dictionary of menu items that can be updated

@@ -24,32 +24,32 @@
 // Logging (here so I can cut and paste code between this and my other
 // project installers)
 #import <Foundation/NSDebug.h>
-#define LOG(args...)			NSLog(args)
-#define LOGERROR(args...)		NSLog(args)
-#define LOGDEBUG(args...)		if (NSDebugEnabled) { NSLog(args); }
+#define LOG(args...)		NSLog(args)
+#define LOGERROR(args...)	NSLog(args)
+#define LOGDEBUG(args...)	if (NSDebugEnabled) { NSLog(args); }
 
 // OS version
-#define kSupportedOS			0x1020
+#define kSupportedOS		0x1020
 
 // Installation paths
 #define kLibraryPrefPanePath	@"/Library/PreferencePanes"
-#define kUserPrefPanePath		[@"~/Library/PreferencePanes/" stringByExpandingTildeInPath]
+#define kUserPrefPanePath	[@"~/Library/PreferencePanes/" stringByExpandingTildeInPath]
 
 // Installation items
-#define kPrefPaneName			@"MenuMeters.prefPane"
+#define kPrefPaneName		@"MenuMeters.prefPane"
 
 // Cache files
 #define kSystemPrefCacheFile	[@"~/Library/Caches/com.apple.preferencepanes.cache" stringByExpandingTildeInPath]
 
 // Installation type
 enum {
-	kNotInstalled				= 0,
+	kNotInstalled		= 0,
 	kLibraryInstall,
 	kUserInstall
 };
 
 // Installer tool return codes
 enum {
-	kInstallToolSuccess			= 0,
+	kInstallToolSuccess	= 0,
 	kInstallToolFail
 };

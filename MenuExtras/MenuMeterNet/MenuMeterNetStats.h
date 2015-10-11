@@ -37,8 +37,8 @@
 	// Old data for containing prior reads
 	NSMutableDictionary		*lastData;
 	// Buffer we keep around
-	size_t					sysctlBufferSize;
-	uint8_t					*sysctlBuffer;
+	size_t				sysctlBufferSize;
+	uint8_t				*sysctlBuffer;
 	// PPP data
 	MenuMeterNetPPP			*pppGatherer;
 

@@ -35,56 +35,56 @@
 
 // Typedef for PPP messages, from Apple PPPLib
 struct ppp_msg_hdr {
-    u_int16_t 		m_flags; 	// special flags
-    u_int16_t 		m_type; 	// type of the message
-    u_int32_t 		m_result; 	// error code of notification message
-    u_int32_t 		m_cookie;	// user param
-    u_int32_t 		m_link;		// link for this message
-    u_int32_t 		m_len;		// len of the following data
+	u_int16_t 		m_flags; 	// special flags
+	u_int16_t 		m_type; 	// type of the message
+	u_int32_t 		m_result; 	// error code of notification message
+	u_int32_t 		m_cookie;	// user param
+	u_int32_t 		m_link;		// link for this message
+	u_int32_t 		m_len;		// len of the following data
 };
 
 // PPP command codes, also from Apple PPPLib
 enum {
-    PPP_VERSION = 1,
-    PPP_STATUS,
-    PPP_CONNECT,
-    PPP_DISCONNECT = 5,
-    PPP_GETOPTION,
-    PPP_SETOPTION,
-    PPP_ENABLE_EVENT,
-    PPP_DISABLE_EVENT,
-    PPP_EVENT,
-    PPP_GETNBLINKS,
-    PPP_GETLINKBYINDEX,
-    PPP_GETLINKBYSERVICEID,
-    PPP_GETLINKBYIFNAME,
-    PPP_SUSPEND,
-    PPP_RESUME
+	PPP_VERSION = 1,
+	PPP_STATUS,
+	PPP_CONNECT,
+	PPP_DISCONNECT = 5,
+	PPP_GETOPTION,
+	PPP_SETOPTION,
+	PPP_ENABLE_EVENT,
+	PPP_DISABLE_EVENT,
+	PPP_EVENT,
+	PPP_GETNBLINKS,
+	PPP_GETLINKBYINDEX,
+	PPP_GETLINKBYSERVICEID,
+	PPP_GETLINKBYIFNAME,
+	PPP_SUSPEND,
+	PPP_RESUME
 };
 
 // And the PPP status struct
 struct ppp_status {
-    // connection stats
-    u_int32_t 		status;
-    union {
-        struct connected {
-            u_int32_t 		timeElapsed;
-            u_int32_t 		timeRemaining;
-            // bytes stats
-            u_int32_t 		inBytes;
-            u_int32_t 		inPackets;
-            u_int32_t 		inErrors;
-            u_int32_t 		outBytes;
-            u_int32_t 		outPackets;
-            u_int32_t 		outErrors;
-        } run;
-        struct disconnected {
-            u_int32_t 		lastDiscCause;
-        } disc;
-        struct waitonbusy {
-            u_int32_t 		timeRemaining;
-        } busy;
-    } s;
+	// connection stats
+	u_int32_t 		status;
+	union {
+		struct connected {
+			u_int32_t 		timeElapsed;
+			u_int32_t 		timeRemaining;
+			// bytes stats
+			u_int32_t 		inBytes;
+			u_int32_t 		inPackets;
+			u_int32_t 		inErrors;
+			u_int32_t 		outBytes;
+			u_int32_t 		outPackets;
+			u_int32_t 		outErrors;
+		} run;
+		struct disconnected {
+			u_int32_t 		lastDiscCause;
+		} disc;
+		struct waitonbusy {
+			u_int32_t 		timeRemaining;
+		} busy;
+	} s;
 };
 
 ///////////////////////////////////////////////////////////////
@@ -187,7 +187,7 @@ static id gSharedPPP = nil;
 	NSData *idReply = [self pppconfdExecMessage:idMsgData];
 	uint32_t linkID = 0;
 	if ([idReply length] != sizeof(uint32_t)) return nil;
-	[idReply getBytes:&linkID];
+	[idReply getBytes:&linkID length:sizeof(uint32_t)];
 
 	// Now get status of that link
 	struct ppp_msg_hdr statusMsg = { 0, PPP_STATUS, 0, 0, linkID, 0 };
@@ -196,22 +196,22 @@ static id gSharedPPP = nil;
 	struct ppp_status *pppStatus = (struct ppp_status *)[statusReply bytes];
 	if (pppStatus->status == PPP_RUNNING) {
 		return [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithUnsignedInt:pppStatus->status],
-					@"status",
-					[NSNumber numberWithUnsignedInt:pppStatus->s.run.inBytes],
-					@"inBytes",
-					[NSNumber numberWithUnsignedInt:pppStatus->s.run.outBytes],
-					@"outBytes",
-					[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeElapsed],
-					@"timeElapsed",
-					[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeRemaining],
-					@"timeRemaining",
-					nil];
+			[NSNumber numberWithUnsignedInt:pppStatus->status],
+			@"status",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.inBytes],
+			@"inBytes",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.outBytes],
+			@"outBytes",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeElapsed],
+			@"timeElapsed",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeRemaining],
+			@"timeRemaining",
+			nil];
 	} else {
 		return [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithUnsignedInt:pppStatus->status],
-					@"status",
-					nil];
+			[NSNumber numberWithUnsignedInt:pppStatus->status],
+			@"status",
+			nil];
 	}
 
 } // statusForInterfaceName
@@ -231,7 +231,7 @@ static id gSharedPPP = nil;
 	NSData *idReply = [self pppconfdExecMessage:idMsgData];
 	uint32_t linkID = 0;
 	if ([idReply length] != sizeof(uint32_t)) return nil;
-	[idReply getBytes:&linkID];
+	[idReply getBytes:&linkID length:sizeof(uint32_t)];
 
 	// Now get status of that link
 	struct ppp_msg_hdr statusMsg = { 0, PPP_STATUS, 0, 0, linkID, 0 };
@@ -240,22 +240,22 @@ static id gSharedPPP = nil;
 	struct ppp_status *pppStatus = (struct ppp_status *)[statusReply bytes];
 	if (pppStatus->status == PPP_RUNNING) {
 		return [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithUnsignedInt:pppStatus->status],
-				@"status",
-				[NSNumber numberWithUnsignedInt:pppStatus->s.run.inBytes],
-				@"inBytes",
-				[NSNumber numberWithUnsignedInt:pppStatus->s.run.outBytes],
-				@"outBytes",
-				[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeElapsed],
-				@"timeElapsed",
-				[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeRemaining],
-				@"timeRemaining",
-				nil];
+			[NSNumber numberWithUnsignedInt:pppStatus->status],
+			@"status",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.inBytes],
+			@"inBytes",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.outBytes],
+			@"outBytes",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeElapsed],
+			@"timeElapsed",
+			[NSNumber numberWithUnsignedInt:pppStatus->s.run.timeRemaining],
+			@"timeRemaining",
+			nil];
 	} else {
 		return [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithUnsignedInt:pppStatus->status],
-				@"status",
-				nil];
+			[NSNumber numberWithUnsignedInt:pppStatus->status],
+			@"status",
+			nil];
 	}
 
 } // statusForServiceID
@@ -281,7 +281,7 @@ static id gSharedPPP = nil;
 	NSData *idReply = [self pppconfdExecMessage:idMsgData];
 	uint32_t linkID = 0;
 	if ([idReply length] != sizeof(uint32_t)) return;
-	[idReply getBytes:&linkID];
+	[idReply getBytes:&linkID length:sizeof(uint32_t)];
 
 	// Connect the link
 	struct ppp_msg_hdr connectMsg = { 0, PPP_CONNECT, 0, 0, linkID, 0 };
@@ -304,7 +304,7 @@ static id gSharedPPP = nil;
 	NSData *idReply = [self pppconfdExecMessage:idMsgData];
 	uint32_t linkID = 0;
 	if ([idReply length] != sizeof(uint32_t)) return;
-	[idReply getBytes:&linkID];
+	[idReply getBytes:&linkID length:sizeof(uint32_t)];
 
 	// Disconnect the link
 	struct ppp_msg_hdr disconnectMsg = { 0, PPP_DISCONNECT, 0, 0, linkID, 0 };
@@ -326,7 +326,7 @@ static id gSharedPPP = nil;
 	// Size the reply
 	if ([reply length] == sizeof(uint32_t)) {
 		uint32_t retVal = 0;
-		[reply getBytes:&retVal];
+		[reply getBytes:&retVal length:sizeof(uint32_t)];
 		return retVal;
 	}
 	// Fallthrough

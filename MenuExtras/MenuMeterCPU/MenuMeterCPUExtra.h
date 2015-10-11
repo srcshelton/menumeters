@@ -37,12 +37,12 @@
 @interface MenuMeterCPUExtra : NSMenuExtra {
 
 	// Menu Extra necessities
-	NSMenu 							*extraMenu;
-    MenuMeterCPUView 				*extraView;
+	NSMenu 						*extraMenu;
+	MenuMeterCPUView 				*extraView;
 	// Is this Panther?
-	BOOL							isPantherOrLater;
+	BOOL						isPantherOrLater;
 	// The timer
-	NSTimer							*updateTimer;
+	NSTimer						*updateTimer;
 	// Prefs object
 	MenuMeterDefaults				*ourPrefs;
 	// Info gatherers
@@ -51,18 +51,18 @@
 	// PowerMate support
 	MenuMeterPowerMate				*powerMate;
 	// The length of the menu item
-	float							menuWidth;
+	float						menuWidth;
 	// Prerendered percentage text displays and their calculated width
-	float							percentWidth;
+	float						percentWidth;
 	NSMutableArray					*singlePercentCache,
-									*splitUserPercentCache,
-									*splitSystemPercentCache;
+							*splitUserPercentCache,
+							*splitSystemPercentCache;
 	// Historical data samples
 	NSMutableArray					*loadHistory;
 	// Cached colors and theme support
-	NSColor							*userColor,
-									*systemColor,
-									*fgMenuThemeColor;
+	NSColor						*userColor,
+							*systemColor,
+							*fgMenuThemeColor;
 
 } // MenuMeterCPUExtra
 

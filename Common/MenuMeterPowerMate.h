@@ -29,19 +29,19 @@
 @interface MenuMeterPowerMate : NSObject {
 
 	// IOKit connection
-	mach_port_t					masterPort;
+	mach_port_t			masterPort;
 	IONotificationPortRef		notifyPort;
-	CFRunLoopSourceRef			notifyRunSource;
-	io_iterator_t				deviceMatchedIterator,
-								deviceTerminatedIterator;
+	CFRunLoopSourceRef		notifyRunSource;
+	io_iterator_t			deviceMatchedIterator,
+					deviceTerminatedIterator;
 	// Connected PowerMate state
-	BOOL						devicePresent;
+	BOOL				devicePresent;
 	IOUSBDeviceInterface		**deviceInterface;
 	// Glow ramping
-	double						lastGlowLevel,
-								targetGlowLevel,
-								rampGlowStep;
-	NSTimer						*rampTimer;
+	double				lastGlowLevel,
+					targetGlowLevel,
+					rampGlowStep;
+	NSTimer				*rampTimer;
 
 } // MenuMeterPowerMate
 

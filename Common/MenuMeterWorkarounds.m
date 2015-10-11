@@ -26,46 +26,15 @@
 #import "MenuMeterWorkarounds.h"
 #import "AppleUndocumented.h"
 
-// Declare NSProcessInfo version tests from 10.10
-#ifndef ELCAPITAN
-#ifdef __x86_64__
-typedef struct {
-	int64_t majorVersion;
-	int64_t minorVersion;
-	int64_t patchVersion;
-} NSOperatingSystemVersion;
-#else 
-typedef struct {
-	int32_t majorVersion;
-	int32_t minorVersion;
-	int32_t patchVersion;
-} NSOperatingSystemVersion;
-#endif
-#endif
-
 @interface NSProcessInfo (MenuMetersWorkarounds)
 - (BOOL)isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion)version;
 @end
 
 
 static BOOL SystemVersionCompare(SInt32 gestVersion, int32_t major, int32_t minor) {
-#ifndef ELCAPITAN
-	if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)]) {
-#endif
-		NSOperatingSystemVersion version = { major, minor, 0 };
-		return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
-#ifndef ELCAPITAN
-	} else {
-		SInt32 systemVersion = 0;
-		OSStatus err = Gestalt(gestaltSystemVersion, &systemVersion);
-		if ((err == noErr) && (systemVersion >= gestVersion)) {
-			return YES;
-		} else {
-			return NO;
-		}
-	}
-#endif
-} 
+	NSOperatingSystemVersion version = { major, minor, 0 };
+	return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
 
 __private_extern__ BOOL OSIsJaguarOrLater(void) {
 	return SystemVersionCompare(0x1020, 10, 2);
@@ -133,7 +102,7 @@ __private_extern__ BOOL IsMenuMeterMenuBarDarkThemed(void) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults synchronize];
 	NSString *interfaceStyle = [defaults stringForKey:@"AppleInterfaceStyle"];
-    if (interfaceStyle && [interfaceStyle isEqualToString:@"Dark"]) {
+	if (interfaceStyle && [interfaceStyle isEqualToString:@"Dark"]) {
 		isDark = YES;
 	}
 	Class appearanceClass = NSClassFromString(@"NSAppearance");
@@ -155,16 +124,16 @@ __private_extern__ NSColor * MenuItemTextColor(void) {
 	RGBColor rgbThemeColor;
 	if (GetThemeTextColor(kThemeTextColorRootMenuActive, 24, true, &rgbThemeColor) == noErr) {
 		return [NSColor colorWithCalibratedRed:((float)rgbThemeColor.red / (float)0xFFFF)
-										 green:((float)rgbThemeColor.green / (float)0xFFFF)
-										  blue:((float)rgbThemeColor.blue / (float)0xFFFF)
-										 alpha:(float)1.0];
+						 green:((float)rgbThemeColor.green / (float)0xFFFF)
+						  blue:((float)rgbThemeColor.blue / (float)0xFFFF)
+						 alpha:(float)1.0];
 	}
 #else
 	// Unfortunately, there's also no NSColor API to get unselected menu item text colors.
 	if (IsMenuMeterMenuBarDarkThemed()) {
 		return [NSColor whiteColor];
 	}
-#endif	
+#endif
 	// Fallback
 	return [NSColor blackColor];
 } // MenuItemTextColor

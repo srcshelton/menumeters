@@ -32,9 +32,9 @@
 //
 ///////////////////////////////////////////////////////////////
 
-#define kUptimeUnavailable			@"Unavailable"
+#define kUptimeUnavailable		@"Unavailable"
 #define kUptimeZeroDayFormat		@"%02ld:%02ld:%02ld"
-#define kUptimeOneDayFormat			@"%ld day %02ld:%02ld:%02ld"
+#define kUptimeOneDayFormat		@"%ld day %02ld:%02ld:%02ld"
 #define kUptimeMultiDayFormat		@"%ld days %02ld:%02ld:%02ld"
 
 
@@ -61,16 +61,16 @@
 		return nil;
 	}
 	localizedStrings = [[NSDictionary dictionaryWithObjectsAndKeys:
-							[selfBundle localizedStringForKey:kUptimeUnavailable value:nil table:nil],
-							kUptimeUnavailable,
-							[selfBundle localizedStringForKey:kUptimeMultiDayFormat value:nil table:nil],
-							kUptimeMultiDayFormat,
-							[selfBundle localizedStringForKey:kUptimeOneDayFormat value:nil table:nil],
-							kUptimeOneDayFormat,
-							[selfBundle localizedStringForKey:kUptimeZeroDayFormat value:nil table:nil],
-							kUptimeZeroDayFormat,
-							nil
-						] retain];
+			     [selfBundle localizedStringForKey:kUptimeUnavailable value:nil table:nil],
+			     kUptimeUnavailable,
+			     [selfBundle localizedStringForKey:kUptimeMultiDayFormat value:nil table:nil],
+			     kUptimeMultiDayFormat,
+			     [selfBundle localizedStringForKey:kUptimeOneDayFormat value:nil table:nil],
+			     kUptimeOneDayFormat,
+			     [selfBundle localizedStringForKey:kUptimeZeroDayFormat value:nil table:nil],
+			     kUptimeZeroDayFormat,
+			     nil
+			     ] retain];
 	if (!localizedStrings) {
 		[self release];
 		return nil;
@@ -121,18 +121,18 @@
 	NSString *uptimeDesc = nil;
 	if (days > 1) {
 		uptimeDesc = [NSString stringWithFormat:[localizedStrings objectForKey:kUptimeMultiDayFormat],
-						days, hours, minutes, seconds];
+			      days, hours, minutes, seconds];
 	} else if (days == 1) {
 		uptimeDesc = [NSString stringWithFormat:[localizedStrings objectForKey:kUptimeOneDayFormat],
-						days, hours, minutes, seconds];
+			      days, hours, minutes, seconds];
 	} else {
 		uptimeDesc = [NSString stringWithFormat:[localizedStrings objectForKey:kUptimeZeroDayFormat],
-						hours, minutes, seconds];
+			      hours, minutes, seconds];
 	}
 
 	// Send the string back
 	return uptimeDesc;
-
+	
 } // uptime
 
 @end

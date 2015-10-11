@@ -31,7 +31,7 @@
 // Widths of the various displays
 #define kNetArrowDisplayWidth				13
 #define kNetNumberDisplayGapWidth			2
-#define kNetDisplayGapWidth					2
+#define kNetDisplayGapWidth				2
 
 // String for primary interface selection (primary interface)
 #define kNetPrimaryInterface				@"primary"
@@ -43,15 +43,15 @@
 ///////////////////////////////////////////////////////////////
 
 // Pref dictionary keys
-#define kNetIntervalPref					@"NetInterval"
-#define kNetDisplayModePref					@"NetDisplayMode"
+#define kNetIntervalPref				@"NetInterval"
+#define kNetDisplayModePref				@"NetDisplayMode"
 #define kNetDisplayOrientationPref			@"NetOrientation"
 #define kNetThroughputLabelPref				@"NetThroughputLabel"
 #define kNetThroughput1KBoundPref			@"NetThroughput1KBound"
-#define kNetGraphStylePref					@"NetGraphStyle"
-#define kNetGraphLengthPref					@"NetGraphLength"
-#define kNetScaleModePref					@"NetScaleMode"
-#define kNetScaleCalcPref					@"NetScaleCalc"
+#define kNetGraphStylePref				@"NetGraphStyle"
+#define kNetGraphLengthPref				@"NetGraphLength"
+#define kNetScaleModePref				@"NetScaleMode"
+#define kNetScaleCalcPref				@"NetScaleCalc"
 #define kNetPreferInterfacePref				@"NetPreferInterface"
 #define kNetTransmitColorPref				@"NetTransmitColor"
 #define kNetReceiveColorPref				@"NetReceiveColor"
@@ -59,18 +59,18 @@
 
 // Display modes
 enum {
-	kNetDisplayArrows						= 1,
-	kNetDisplayThroughput					= 2,
-	kNetDisplayGraph						= 4
+	kNetDisplayArrows				= 1,
+	kNetDisplayThroughput				= 2,
+	kNetDisplayGraph				= 4
 };
-#define kNetDisplayDefault					kNetDisplayArrows
+#define kNetDisplayDefault				kNetDisplayArrows
 
 // Display orientation
 enum {
-	kNetDisplayOrientTxRx		= 0,
+	kNetDisplayOrientTxRx				= 0,
 	kNetDisplayOrientRxTx
 };
-#define kNetDisplayOrientationDefault		kNetDisplayOrientTxRx
+#define kNetDisplayOrientationDefault			kNetDisplayOrientTxRx
 
 // Timer
 #define kNetUpdateIntervalMin				0.5
@@ -79,14 +79,14 @@ enum {
 
 // Net scaling types
 enum {
-	kNetScaleInterfaceSpeed		= 0,
+	kNetScaleInterfaceSpeed				= 0,
 	kNetScalePeakTraffic
 };
-#define kNetScaleDefault					kNetScaleInterfaceSpeed
+#define kNetScaleDefault				kNetScaleInterfaceSpeed
 
 // Net scaling calcs
 enum {
-	kNetScaleCalcLinear			= 0,
+	kNetScaleCalcLinear				= 0,
 	kNetScaleCalcSquareRoot,
 	kNetScaleCalcCubeRoot,
 	kNetScaleCalcLog
@@ -94,13 +94,13 @@ enum {
 #define kNetScaleCalcDefault				kNetScaleCalcCubeRoot
 
 // Graph display
-#define kNetGraphWidthMin					11
-#define kNetGraphWidthMax					88
+#define kNetGraphWidthMin				11
+#define kNetGraphWidthMax				88
 #define kNetGraphWidthDefault				33
 
 // Net graph styles
 enum {
-	kNetGraphStyleStandard		= 0,
+	kNetGraphStyleStandard				= 0,
 	kNetGraphStyleCentered,
 	kNetGraphStyleOpposed,
 	kNetGraphStyleInverseOpposed
@@ -111,14 +111,14 @@ enum {
 #define kNetThroughputLabelDefault			YES
 
 // Thoughput 1K bound
-#define kNetThroughput1KBoundDefault		NO
+#define kNetThroughput1KBoundDefault			NO
 
 // Colors
-											// Moss green
+// Moss green
 #define kNetTransmitColorDefault			[NSColor colorWithDeviceRed:0.0f green:0.5f blue:0.25f alpha:1.0f]
-											// Brick red
+// Brick red
 #define kNetReceiveColorDefault				[NSColor colorWithDeviceRed:0.5f green:0.0f blue:0.0f alpha:1.0f]
-											// Light grey
+// Light grey
 #define kNetInactiveColorDefault			[NSColor darkGrayColor]
 
 

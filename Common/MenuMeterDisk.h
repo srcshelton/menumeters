@@ -41,9 +41,9 @@ typedef enum {
 ///////////////////////////////////////////////////////////////
 
 // Pref dictionary keys
-#define kDiskIntervalPref				@"DiskInterval"
-#define kDiskImageSetPref				@"DiskImageSet"
-#define kDiskSelectModePref				@"DiskSelectMode"
+#define kDiskIntervalPref			@"DiskInterval"
+#define kDiskImageSetPref			@"DiskImageSet"
+#define kDiskSelectModePref			@"DiskSelectMode"
 
 // Hidden pref keys
 #define kDiskSpaceForceBaseTwoPref		@"DiskSpaceForceBaseTwo"
@@ -54,28 +54,29 @@ typedef enum {
 #define kDiskUpdateIntervalDefault		0.3f
 
 // Image sets
-#define kDiskImageSets					[NSArray arrayWithObjects: @"Color Arrows", @"Arrows", \
-											@"Lights", @"Aqua Lights", @"Disk Arrows", \
-											@"Disk Arrows (large)", nil]
-#define kDiskDarkImageSets				[NSArray arrayWithObjects: @"Dark Color Arrows", @"Dark Arrows", \
-											@"Lights", @"Aqua Lights", @"Disk Arrows", \
-											@"Disk Arrows (large)", nil]
+#define kDiskImageSets				[NSArray arrayWithObjects: @"Color Arrows", @"Arrows", \
+							@"Lights", @"Aqua Lights", @"Disk Arrows", \
+							@"Disk Arrows (large)", nil]
+#define kDiskDarkImageSets			[NSArray arrayWithObjects: @"Dark Color Arrows", @"Dark Arrows", \
+							@"Lights", @"Aqua Lights", @"Disk Arrows", \
+							@"Disk Arrows (large)", nil]
 #define kDiskImageSetDefault			0
-#define kDiskArrowsImageSet				4
+#define kDiskArrowsImageSet			4
 #define kDiskArrowsLargeImageSet		5
 
 // Select mode constants
 enum {
-	kDiskSelectModeOpen					= 0,
+	kDiskSelectModeOpen			= 0,
 	kDiskSelectModeEject
 };
 #define kDiskSelectModeDefault			kDiskSelectModeOpen
 
 // Hidden pref defaults
-#define kDiskSpaceForceBaseTwoDefault	NO
+#define kDiskSpaceForceBaseTwoDefault		NO
 
-// View width, also menubar disk icon image width/height
-#define kDiskViewWidth					16
+// View width
+// also menubar disk icon image width/height
+#define kDiskViewWidth				16
 
 
 

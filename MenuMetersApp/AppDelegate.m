@@ -19,30 +19,29 @@
 
 @implementation AppDelegate
 {
-    MenuMeterCPUExtra*cpuExtra;
-    MenuMeterDiskExtra*diskExtra;
-    MenuMeterNetExtra*netExtra;
-    MenuMeterMemExtra*memExtra;
-    
-    
-    NSTimer*timer;
+	MenuMeterCPUExtra*cpuExtra;
+	MenuMeterDiskExtra*diskExtra;
+	MenuMeterNetExtra*netExtra;
+	MenuMeterMemExtra*memExtra;
+
+	NSTimer*timer;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-    cpuExtra=[[MenuMeterCPUExtra alloc] initWithBundle:[NSBundle mainBundle]];
-    
-    diskExtra=[[MenuMeterDiskExtra alloc] initWithBundle:[NSBundle mainBundle]];
+	// Insert code here to initialize your application
+	cpuExtra=[[MenuMeterCPUExtra alloc] initWithBundle:[NSBundle mainBundle]];
 
-    netExtra=[[MenuMeterNetExtra alloc] initWithBundle:[NSBundle mainBundle]];
+	diskExtra=[[MenuMeterDiskExtra alloc] initWithBundle:[NSBundle mainBundle]];
 
-    memExtra=[[MenuMeterMemExtra alloc] initWithBundle:[NSBundle mainBundle]];
+	netExtra=[[MenuMeterNetExtra alloc] initWithBundle:[NSBundle mainBundle]];
+
+	memExtra=[[MenuMeterMemExtra alloc] initWithBundle:[NSBundle mainBundle]];
 
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+	// Insert code here to tear down your application
 }
 
 @end

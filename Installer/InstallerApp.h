@@ -37,15 +37,15 @@
 @interface InstallerApp : NSObject {
 
 	// Main window interface
-	IBOutlet NSWindow				*installWindow;
-	IBOutlet NSTabView				*installOrUpdate;
-	IBOutlet NSButtonCell			*installLocationAllUser;
-	IBOutlet NSButtonCell			*installLocationCurrentUser;
-	IBOutlet NSButton				*installButton;
-	IBOutlet NSButton 				*quitButton;
-	IBOutlet NSButton				*uninstallButton;
+	IBOutlet NSWindow		*installWindow;
+	IBOutlet NSTabView		*installOrUpdate;
+	IBOutlet NSButtonCell		*installLocationAllUser;
+	IBOutlet NSButtonCell		*installLocationCurrentUser;
+	IBOutlet NSButton		*installButton;
+	IBOutlet NSButton 		*quitButton;
+	IBOutlet NSButton		*uninstallButton;
 	// Progress
-	IBOutlet NSPanel				*installProgressPanel;
+	IBOutlet NSPanel		*installProgressPanel;
 	IBOutlet NSProgressIndicator	*installProgress;
 
 } // InstallerApp

@@ -34,13 +34,16 @@
 ///////////////////////////////////////////////////////////////
 
 NSFileManager		*fileMan = nil;
-NSString			*toolPath = nil;
+NSString		*toolPath = nil;
 
 ///////////////////////////////////////////////////////////////
 //
 //	Install actions
 //
 ///////////////////////////////////////////////////////////////
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 BOOL uninstallLibraryPrefPane(void) {
 
@@ -85,7 +88,7 @@ BOOL installLibraryPrefPane(void) {
 	// Can we find our pieces?
 	if (![fileMan fileExistsAtPath:[toolPath stringByAppendingPathComponent:kPrefPaneName]]) {
 		LOGERROR(@"InstallTool error: PrefPane install could not find source file \"%@\".",
-				 [toolPath stringByAppendingPathComponent:kPrefPaneName]);
+			 [toolPath stringByAppendingPathComponent:kPrefPaneName]);
 		return NO;
 	}
 
@@ -102,14 +105,14 @@ BOOL installLibraryPrefPane(void) {
 	if (![fileMan fileExistsAtPath:kLibraryPrefPanePath]) {
 		LOGDEBUG(@"InstallTool: PrefPane install must create \"%@\".", kLibraryPrefPanePath);
 		if (![fileMan createDirectoryAtPath:kLibraryPrefPanePath
-								 attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												@"root",
-												NSFileOwnerAccountName,
-												@"admin",
-												NSFileGroupOwnerAccountName,
-												[NSNumber numberWithUnsignedInt:0777],
-												NSFilePosixPermissions,
-												nil]]) {
+					 attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+						     @"root",
+						     NSFileOwnerAccountName,
+						     @"admin",
+						     NSFileGroupOwnerAccountName,
+						     [NSNumber numberWithUnsignedInt:0777],
+						     NSFilePosixPermissions,
+						     nil]]) {
 			LOGERROR(@"InstallTool error: PrefPane install unable to create \"%@\".", kLibraryPrefPanePath);
 			return NO;
 		}
@@ -120,14 +123,14 @@ BOOL installLibraryPrefPane(void) {
 		return NO;
 	}
 	if (![fileMan changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-											@"root",
-											NSFileOwnerAccountName,
-											@"admin",
-											NSFileGroupOwnerAccountName,
-											[NSNumber numberWithUnsignedInt:0775],
-											NSFilePosixPermissions,
-											nil]
-								atPath:[kLibraryPrefPanePath stringByAppendingPathComponent:kPrefPaneName]]) {
+					    @"root",
+					    NSFileOwnerAccountName,
+					    @"admin",
+					    NSFileGroupOwnerAccountName,
+					    [NSNumber numberWithUnsignedInt:0775],
+					    NSFilePosixPermissions,
+					    nil]
+				    atPath:[kLibraryPrefPanePath stringByAppendingPathComponent:kPrefPaneName]]) {
 		LOGERROR(@"InstallTool error: Library PrefPane top level attribute change failed.");
 		return NO;
 	}
@@ -139,15 +142,15 @@ BOOL installLibraryPrefPane(void) {
 	NSString *subPath = nil;
 	while ((subPath = [dirEnum nextObject])) {
 		if (![fileMan changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												@"root",
-												NSFileOwnerAccountName,
-												@"admin",
-												NSFileGroupOwnerAccountName,
-												[NSNumber numberWithUnsignedInt:0775],
-												NSFilePosixPermissions,
-												nil]
-									atPath:[[kLibraryPrefPanePath stringByAppendingPathComponent:kPrefPaneName]
-												stringByAppendingPathComponent:subPath]]) {
+						    @"root",
+						    NSFileOwnerAccountName,
+						    @"admin",
+						    NSFileGroupOwnerAccountName,
+						    [NSNumber numberWithUnsignedInt:0775],
+						    NSFilePosixPermissions,
+						    nil]
+					    atPath:[[kLibraryPrefPanePath stringByAppendingPathComponent:kPrefPaneName]
+						    stringByAppendingPathComponent:subPath]]) {
 			LOGERROR(@"InstallTool error: Library PrefPane attribute change failed for subitem \"%@\".", subPath);
 			return NO;
 		}
@@ -180,10 +183,10 @@ BOOL installUserPrefPane(void) {
 	if (![fileMan fileExistsAtPath:kUserPrefPanePath]) {
 		LOGDEBUG(@"InstallTool: PrefPane install must create \"%@\".", kUserPrefPanePath);
 		if (![fileMan createDirectoryAtPath:kUserPrefPanePath
-								 attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												[NSNumber numberWithUnsignedInt:0755],
-												NSFilePosixPermissions,
-												nil]]) {
+					 attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+						     [NSNumber numberWithUnsignedInt:0755],
+						     NSFilePosixPermissions,
+						     nil]]) {
 			LOGERROR(@"InstallTool error: PrefPane install unable to create \"%@\".", kUserPrefPanePath);
 			return NO;
 		}
@@ -194,10 +197,10 @@ BOOL installUserPrefPane(void) {
 		return NO;
 	}
 	if (![fileMan changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-											[NSNumber numberWithUnsignedInt:0755],
-											NSFilePosixPermissions,
-											nil]
-								atPath:[kUserPrefPanePath stringByAppendingPathComponent:kPrefPaneName]]) {
+					    [NSNumber numberWithUnsignedInt:0755],
+					    NSFilePosixPermissions,
+					    nil]
+				    atPath:[kUserPrefPanePath stringByAppendingPathComponent:kPrefPaneName]]) {
 		LOGERROR(@"InstallTool error: user PrefPane top level attribute change failed.");
 		return NO;
 	}
@@ -209,11 +212,11 @@ BOOL installUserPrefPane(void) {
 	NSString *subPath = nil;
 	while ((subPath = [dirEnum nextObject])) {
 		if (![fileMan changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												[NSNumber numberWithUnsignedInt:0755],
-												NSFilePosixPermissions,
-												nil]
-									atPath:[[kUserPrefPanePath stringByAppendingPathComponent:kPrefPaneName]
-												stringByAppendingPathComponent:subPath]]) {
+						    [NSNumber numberWithUnsignedInt:0755],
+						    NSFilePosixPermissions,
+						    nil]
+					    atPath:[[kUserPrefPanePath stringByAppendingPathComponent:kPrefPaneName]
+						    stringByAppendingPathComponent:subPath]]) {
 			LOGERROR(@"InstallTool error: user PrefPane attribute change failed for subitem \"%@\".", subPath);
 			return NO;
 		}
@@ -223,6 +226,8 @@ BOOL installUserPrefPane(void) {
 	return YES;
 
 } // installUserPrefPane
+
+#pragma GCC diagnostic pop
 
 ///////////////////////////////////////////////////////////////
 //
@@ -240,7 +245,7 @@ void installSuccess(void) {
 
 void installFailure(void) {
 
-	int	result = kInstallToolFail;
+	int result = kInstallToolFail;
 	fwrite(&result, sizeof(int), 1, stdout);
 	fflush(stdout);
 
@@ -255,7 +260,7 @@ void installFailure(void) {
 int main (int argc, const char *argv[]) {
 
 	// Keep a local pool
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	// Pathing
 	char *path = NULL;
@@ -278,6 +283,7 @@ int main (int argc, const char *argv[]) {
 	fileMan = [NSFileManager defaultManager];
 	if (!fileMan) {
 		LOGERROR(@"InstallTool error: No default file manager.");
+		free(path);
 		[pool release];
 		installFailure();
 		return kInstallToolFail;

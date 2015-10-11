@@ -34,21 +34,21 @@
 @interface MenuMeterCPUStats : NSObject {
 
 	// CPU name
-	NSString							*cpuName;
+	NSString					*cpuName;
 	// CPU clock speed
-	NSString							*clockSpeed;
+	NSString					*clockSpeed;
 	// Number of CPUs
-	uint32_t							cpuCount;
+	uint32_t					cpuCount;
 	// Mach host
-	host_name_port_t 					machHost;
+	host_name_port_t 				machHost;
 	// Default processor set
 	processor_set_name_port_t			processorSet;
 	// Previous processor tick data
 	processor_cpu_load_info_t 			priorCPUTicks;
 	// Localized string dictionary
-	NSDictionary						*localizedStrings;
+	NSDictionary					*localizedStrings;
 	// Localized float display
-	NSNumberFormatter					*twoDigitFloatFormatter;
+	NSNumberFormatter				*twoDigitFloatFormatter;
 
 } // MenuMeterCPUStats
 

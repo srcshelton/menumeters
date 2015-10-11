@@ -35,12 +35,12 @@
 @interface MenuMeterMemExtra : NSMenuExtra  {
 
 	// Menu Extra necessities
-	NSMenu 							*extraMenu;
-    MenuMeterMemView 				*extraView;
+	NSMenu						*extraMenu;
+	MenuMeterMemView				*extraView;
 	// Is this Panther? Tiger?
-	BOOL							isPantherOrLater, isTigerOrLater;
+	BOOL						isPantherOrLater, isTigerOrLater;
 	// The timer
-	NSTimer							*updateTimer;
+	NSTimer						*updateTimer;
 	// Pref object
 	MenuMeterDefaults				*ourPrefs;
 	// Info gathers
@@ -49,24 +49,24 @@
 	NSDictionary					*localizedStrings;
 	// Formatters for numbers so we get localization correctly
 	NSNumberFormatter				*memFloatMBFormatter,
-									*memIntMBFormatter,
-									*prettyIntFormatter,
-									*percentFormatter;
+							*memIntMBFormatter,
+							*prettyIntFormatter,
+							*percentFormatter;
 	// Colors
-	NSColor							*freeColor, *usedColor,
-									*activeColor, *inactiveColor, *wireColor, *compressedColor,
-									*pageInColor, *pageOutColor;
+	NSColor						*freeColor, *usedColor,
+							*activeColor, *inactiveColor, *wireColor, *compressedColor,
+							*pageInColor, *pageOutColor;
 	// Image cache for numbers label
-	NSImage							*numberLabelPrerender;
+	NSImage						*numberLabelPrerender;
 	// Width of the menu item
-	float							menuWidth;
+	float						menuWidth;
 	// Width of the text display
-	float							textWidth;
+	float						textWidth;
 	// History data
 	NSMutableArray					*memHistory;
 	NSDictionary					*currentSwapStats;
 	// Theme support
-	NSColor							*fgMenuThemeColor;
+	NSColor						*fgMenuThemeColor;
 
 } // MenuMeterMemExtra
 

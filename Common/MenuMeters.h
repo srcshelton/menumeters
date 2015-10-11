@@ -31,7 +31,7 @@
 #ifndef ELCAPITAN
 #define kPrefBundleName					@"MenuMeterDefaults.bundle"
 #else
-#define kPrefBundleName                 @"MenuMetersApp.app/Contents/Resources/MenuMeterDefaults.bundle"
+#define kPrefBundleName					@"MenuMetersApp.app/Contents/Resources/MenuMeterDefaults.bundle"
 #endif
 
 // Bundle ID for the CPU menu extra
@@ -58,10 +58,10 @@
 // Since all our bundles share a single pref file we don't use the default
 // suite (which would be based on our bundle) and instead we load a different
 // domain
-#define kMenuMeterDefaultsDomain		@"com.ragingmenace.MenuMeters"
+#define kMenuMeterDefaultsDomain			@"com.ragingmenace.MenuMeters"
 
 // Old name we no longer use
-#define kMenuMeterObsoleteDomain		@"MenuMeters"
+#define kMenuMeterObsoleteDomain			@"MenuMeters"
 
 // Pref versioning
 #define	kPrefVersionKey					@"MenuMeterPrefVersion"
@@ -74,13 +74,13 @@
 ///////////////////////////////////////////////////////////////
 
 // Preferences were changed
-#define kPrefChangeNotification			@"prefChange"
+#define kPrefChangeNotification				@"prefChange"
 
 // Extras unload
-#define kCPUMenuUnloadNotification		@"cpuMenuUnload"
-#define kDiskMenuUnloadNotification		@"diskMenuUnload"
-#define kMemMenuUnloadNotification		@"memMenuUnload"
-#define kNetMenuUnloadNotification		@"netMenuUnload"
+#define kCPUMenuUnloadNotification			@"cpuMenuUnload"
+#define kDiskMenuUnloadNotification			@"diskMenuUnload"
+#define kMemMenuUnloadNotification			@"memMenuUnload"
+#define kNetMenuUnloadNotification			@"netMenuUnload"
 
 ///////////////////////////////////////////////////////////////
 //
@@ -89,7 +89,7 @@
 ///////////////////////////////////////////////////////////////
 
 #define kMenuIndentFormat				@"    %@"
-#define kMenuDoubleIndentFormat			@"        %@"
-#define kMenuTripleIndentFormat			@"            %@"
+#define kMenuDoubleIndentFormat				@"        %@"
+#define kMenuTripleIndentFormat				@"            %@"
 
 

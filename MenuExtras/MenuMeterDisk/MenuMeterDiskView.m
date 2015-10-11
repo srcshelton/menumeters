@@ -39,13 +39,13 @@
 		return nil;
 	}
 	diskMenuExtra = extra;
-    return self;
+	return self;
 
 } // initWithFrame
 
 - (void)dealloc {
 
-    [super dealloc];
+	[super dealloc];
 
 } // dealloc
 
@@ -60,15 +60,18 @@
 	// Following our superclass API, get an image from the extra and draw it
 	// on the extra's behalf.
 	NSImage *image = [diskMenuExtra image];
-    if (image) {
+	if (image) {
 		// Live updating even when menu is down handled by making the extra
 		// draw the background if needed.
-		if ([diskMenuExtra isMenuDown] || 
-			([diskMenuExtra respondsToSelector:@selector(isMenuDownForAX)] && [diskMenuExtra isMenuDownForAX])) {
+		if ([diskMenuExtra isMenuDown] ||
+		    ([diskMenuExtra respondsToSelector:@selector(isMenuDownForAX)] && [diskMenuExtra isMenuDownForAX])) {
 			[diskMenuExtra drawMenuBackground:YES];
 		}
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		// Disk images are 22px (same height as menubar and our view)
 		[image compositeToPoint:NSMakePoint(0, 0) operation:NSCompositeSourceOver];
+#pragma GCC diagnostic pop
 	}
 
 } // drawRect

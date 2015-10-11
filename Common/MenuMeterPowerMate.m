@@ -156,16 +156,17 @@ static void DeviceTerminated(void *ref, io_iterator_t iterator) {
 
 	// Install notifications for Powermate devices
 	err = IOServiceAddMatchingNotification(notifyPort,  kIOMatchedNotification,
-										   matchingDict,
-										   DeviceMatched, self, &deviceMatchedIterator);
+					       matchingDict,
+					       DeviceMatched, self, &deviceMatchedIterator);
 	if (err != KERN_SUCCESS) {
 		CFRelease(matchingDict);
+		CFRelease(terminatedDict);
 		[self release];
 		return nil;
 	}
 	err = IOServiceAddMatchingNotification(notifyPort, kIOTerminatedNotification,
-										   terminatedDict,
-										   DeviceTerminated, self, &deviceTerminatedIterator);
+					       terminatedDict,
+					       DeviceTerminated, self, &deviceTerminatedIterator);
 	if (err != KERN_SUCCESS) {
 		CFRelease(matchingDict);
 		[self release];
@@ -264,10 +265,10 @@ static void DeviceTerminated(void *ref, io_iterator_t iterator) {
 	rampGlowStep = step;
 	targetGlowLevel = level;
 	rampTimer = [NSTimer scheduledTimerWithTimeInterval:kGlowRampInterval
-												 target:self
-											   selector:@selector(glowRamp:)
-											   userInfo:nil
-												repeats:YES];
+						     target:self
+						   selector:@selector(glowRamp:)
+						   userInfo:nil
+						    repeats:YES];
 	// Start stepping before the timer fires
 	[self glowRamp:rampTimer];
 
@@ -402,16 +403,16 @@ static void DeviceTerminated(void *ref, io_iterator_t iterator) {
 	IOCFPlugInInterface **plugInInterface = NULL;
 	SInt32 score = 0;
 	kern_return_t createErr = IOCreatePlugInInterfaceForService(pmDevice,
-																kIOUSBDeviceUserClientTypeID,
-																kIOCFPlugInInterfaceID,
-																&plugInInterface, &score);
+								    kIOUSBDeviceUserClientTypeID,
+								    kIOCFPlugInInterfaceID,
+								    &plugInInterface, &score);
 	if ((createErr != KERN_SUCCESS) || !plugInInterface) {
 		IOObjectRelease(pmDevice);
 		return;
 	}
 	HRESULT queryErr = (*plugInInterface)->QueryInterface(plugInInterface,
-														  CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID),
-														  (LPVOID)&deviceInterface);
+							      CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID),
+							      (LPVOID)&deviceInterface);
 	IODestroyPlugInInterface(plugInInterface);
 	if (queryErr || !deviceInterface) {
 		IOObjectRelease(pmDevice);

@@ -42,9 +42,9 @@
 ///////////////////////////////////////////////////////////////
 
 #define kProcessorNameFormat				@"%u %@ @ %@"
-#define kTaskThreadFormat					@"%d tasks, %d threads"
-#define kLoadAverageFormat					@"%@, %@, %@"
-#define kNoInfoErrorMessage					@"No info available"
+#define kTaskThreadFormat				@"%d tasks, %d threads"
+#define kLoadAverageFormat				@"%@, %@, %@"
+#define kNoInfoErrorMessage				@"No info available"
 
 
 ///////////////////////////////////////////////////////////////
@@ -94,8 +94,8 @@
 	}
 	if (clockRate > 1000000000) {
 		clockSpeed = [[NSString stringWithFormat:@"%@GHz",
-							[twoDigitFloatFormatter stringForObjectValue:
-								[NSNumber numberWithFloat:(float)clockRate / 1000000000]]] retain];
+			       [twoDigitFloatFormatter stringForObjectValue:
+				[NSNumber numberWithFloat:(float)clockRate / 1000000000]]] retain];
 	}
 	else {
 		clockSpeed = [[NSString stringWithFormat:@"%dMHz", clockRate / 1000000] retain];
@@ -123,7 +123,7 @@
 	processor_cpu_load_info_t processorTickInfo;
 	mach_msg_type_number_t processorInfoCount;
 	kern_return_t err = host_processor_info(machHost, PROCESSOR_CPU_LOAD_INFO, &processorCount,
-											(processor_info_array_t *)&processorTickInfo, &processorInfoCount);
+						(processor_info_array_t *)&processorTickInfo, &processorInfoCount);
 	if (err != KERN_SUCCESS) {
 		[self release];
 		return nil;
@@ -138,15 +138,15 @@
 
 	// Localizable strings load
 	localizedStrings = [[NSDictionary dictionaryWithObjectsAndKeys:
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kProcessorNameFormat value:nil table:nil],
-							kProcessorNameFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kTaskThreadFormat value:nil table:nil],
-							kTaskThreadFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kLoadAverageFormat value:nil table:nil],
-							kLoadAverageFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kNoInfoErrorMessage value:nil table:nil],
-							kNoInfoErrorMessage,
-							nil] retain];
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kProcessorNameFormat value:nil table:nil],
+			     kProcessorNameFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kTaskThreadFormat value:nil table:nil],
+			     kTaskThreadFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kLoadAverageFormat value:nil table:nil],
+			     kLoadAverageFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kNoInfoErrorMessage value:nil table:nil],
+			     kNoInfoErrorMessage,
+			     nil] retain];
 	if (!localizedStrings) {
 		[self release];
 		return nil;
@@ -195,7 +195,7 @@
 - (NSString *)processorDescription {
 
 	return [NSString stringWithFormat:[localizedStrings objectForKey:kProcessorNameFormat],
-				[self numberOfCPUs], [self cpuName], [self cpuSpeed]];
+		[self numberOfCPUs], [self cpuName], [self cpuSpeed]];
 
 } // processorDescription
 
@@ -210,12 +210,12 @@
 	struct processor_set_load_info loadInfo;
 	mach_msg_type_number_t count = PROCESSOR_SET_LOAD_INFO_COUNT;
 	kern_return_t err = processor_set_statistics(processorSet, PROCESSOR_SET_LOAD_INFO,
-												 (processor_set_info_t)&loadInfo, &count);
+						     (processor_set_info_t)&loadInfo, &count);
 	if (err != KERN_SUCCESS) {
 		return [localizedStrings objectForKey:kNoInfoErrorMessage];
 	} else {
 		return [NSString stringWithFormat:[localizedStrings objectForKey:kTaskThreadFormat],
-					loadInfo.task_count, loadInfo.thread_count];
+			loadInfo.task_count, loadInfo.thread_count];
 	}
 
 } // currentProcessorTasks
@@ -228,9 +228,9 @@
 		return [localizedStrings objectForKey:kNoInfoErrorMessage];
 	} else {
 		return [NSString stringWithFormat:[localizedStrings objectForKey:kLoadAverageFormat],
-					[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[0]]],
-					[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[1]]],
-					[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[2]]]];
+			[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[0]]],
+			[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[1]]],
+			[twoDigitFloatFormatter stringForObjectValue:[NSNumber numberWithFloat:(float)loads[2]]]];
 	}
 
 } // loadAverage
@@ -242,7 +242,7 @@
 	processor_cpu_load_info_t processorTickInfo;
 	mach_msg_type_number_t processorInfoCount;
 	kern_return_t err = host_processor_info(machHost, PROCESSOR_CPU_LOAD_INFO, &processorCount,
-											(processor_info_array_t *)&processorTickInfo, &processorInfoCount);
+						(processor_info_array_t *)&processorTickInfo, &processorInfoCount);
 	if (err != KERN_SUCCESS) return nil;
 
 	// We have valid info so build return array
@@ -284,9 +284,9 @@
 		}
 
 		[loadInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								[NSNumber numberWithFloat:((float)system / (float)total)], @"system",
-								[NSNumber numberWithFloat:((float)user / (float)total)], @"user",
-								nil]];
+				     [NSNumber numberWithFloat:((float)system / (float)total)], @"system",
+				     [NSNumber numberWithFloat:((float)user / (float)total)], @"user",
+				     nil]];
 	}
 
 	// Copy the new data into previous
@@ -345,7 +345,7 @@
 	}
 	return prettyName;
 #endif
-
+	
 } // _cpuPrettyName
 
 @end

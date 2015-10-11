@@ -12,11 +12,13 @@
 
 @interface MenuMetersMenuExtraBase : NSMenuExtra
 {
-    NSStatusItem*statusItem;
-    NSTimer*timer;
+	NSStatusItem*statusItem;
+	NSTimer*timer;
 }
--(instancetype)initWithBundle:(NSBundle*)bundle;
-- (void)configDisplay:(NSString*)bundleID fromPrefs:(MenuMeterDefaults*)ourPrefs withTimerInterval:(NSTimeInterval)interval;
+
+- (instancetype)initWithBundle: (NSBundle*)bundle;
+- (void)configDisplay: (NSString*)bundleID fromPrefs:(MenuMeterDefaults*)ourPrefs withTimerInterval:(NSTimeInterval)interval;
+
 @end
 
 #define NSMenuExtra MenuMetersMenuExtraBase

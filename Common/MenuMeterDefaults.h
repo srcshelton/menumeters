@@ -32,7 +32,6 @@
 - (void)saveBoolPref:(NSString *)prefName value:(BOOL)value;
 #endif
 
-
 // Pref read/write
 - (void)syncWithDisk;
 

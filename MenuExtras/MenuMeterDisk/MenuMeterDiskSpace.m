@@ -73,19 +73,19 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 
 	// Load up our strings
 	localizedStrings = [[NSDictionary dictionaryWithObjectsAndKeys:
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kUsedSpaceFormat value:nil table:nil],
-							kUsedSpaceFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kFreeSpaceFormat value:nil table:nil],
-							kFreeSpaceFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kTotalSpaceFormat value:nil table:nil],
-							kTotalSpaceFormat,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kKBLabel value:nil table:nil],
-							kKBLabel,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kMBLabel value:nil table:nil],
-							kMBLabel,
-							[[NSBundle bundleForClass:[self class]] localizedStringForKey:kGBLabel value:nil table:nil],
-							kGBLabel,
-							nil] retain];
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kUsedSpaceFormat value:nil table:nil],
+			     kUsedSpaceFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kFreeSpaceFormat value:nil table:nil],
+			     kFreeSpaceFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kTotalSpaceFormat value:nil table:nil],
+			     kTotalSpaceFormat,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kKBLabel value:nil table:nil],
+			     kKBLabel,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kMBLabel value:nil table:nil],
+			     kMBLabel,
+			     [[NSBundle bundleForClass:[self class]] localizedStringForKey:kGBLabel value:nil table:nil],
+			     kGBLabel,
+			     nil] retain];
 	if (!localizedStrings) {
 		[self release];
 		return nil;
@@ -139,21 +139,24 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 		// We only view local volumes, which isn't easy (are FUSE volumes local?)
 		// Just look at filesystem type.
 		if((!strcmp(mountInfo[i].f_fstypename, "hfs") ||
-			!strcmp(mountInfo[i].f_fstypename, "ufs") ||
-			!strcmp(mountInfo[i].f_fstypename, "msdos") ||
-			!strcmp(mountInfo[i].f_fstypename, "exfat") ||
-			!strcmp(mountInfo[i].f_fstypename, "ntfs") ||
-			!strcmp(mountInfo[i].f_fstypename, "cd9660") ||
-			!strcmp(mountInfo[i].f_fstypename, "cddafs") ||
-			!strcmp(mountInfo[i].f_fstypename, "udf"))) {
+		    !strcmp(mountInfo[i].f_fstypename, "ufs") ||
+		    !strcmp(mountInfo[i].f_fstypename, "msdos") ||
+		    !strcmp(mountInfo[i].f_fstypename, "exfat") ||
+		    !strcmp(mountInfo[i].f_fstypename, "ntfs") ||
+		    !strcmp(mountInfo[i].f_fstypename, "cd9660") ||
+		    !strcmp(mountInfo[i].f_fstypename, "cddafs") ||
+		    !strcmp(mountInfo[i].f_fstypename, "udf"))) {
 
 			// Build the dictionary, start with 6 items (name, path, icon, free, used, total)
 			NSMutableDictionary *diskStats = [NSMutableDictionary dictionary];
 
 			// Build a NSString from the path
 			NSString *mountPath = [[NSFileManager defaultManager]
-									stringWithFileSystemRepresentation:mountInfo[i].f_mntonname
-									length:strlen(mountInfo[i].f_mntonname)];
+					       stringWithFileSystemRepresentation:mountInfo[i].f_mntonname
+					       length:strlen(mountInfo[i].f_mntonname)];
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 			// NSFileManger used to report stale volume names and many other
 			// bugs. Again, probably fixed in new OS versions, but stick with
@@ -178,9 +181,11 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 				continue;
 			}
 
+#pragma GCC diagnostic pop
+
 			// Store the name and path from the workspace
 			[diskStats setObject:[NSString stringWithCharacters:volumeName.unicode length:volumeName.length]
-						  forKey:@"name"];
+				      forKey:@"name"];
 			[diskStats setObject:mountPath forKey:@"path"];
 
 			// Store the icon
@@ -192,25 +197,25 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 			// Other random details (these strings aren't UTF-8 but that's still
 			// the safest choice).
 			[diskStats setObject:[NSString stringWithUTF8String:mountInfo[i].f_fstypename]
-						  forKey:@"fstype"];
+				      forKey:@"fstype"];
 			[diskStats setObject:[NSString stringWithUTF8String:mountInfo[i].f_mntfromname]
-						  forKey:@"device"];
+				      forKey:@"device"];
 
 			// Store
 			[diskStats setObject:[NSString stringWithFormat:[localizedStrings objectForKey:kTotalSpaceFormat],
-									[self spaceString:((float)mountInfo[i].f_blocks * (float)mountInfo[i].f_bsize)]]
-						  forKey:@"total"];
+					      [self spaceString:((float)mountInfo[i].f_blocks * (float)mountInfo[i].f_bsize)]]
+				      forKey:@"total"];
 			[diskStats setObject:[NSString stringWithFormat:[localizedStrings objectForKey:kFreeSpaceFormat],
-									[self spaceString:((float)mountInfo[i].f_bavail * (float)mountInfo[i].f_bsize)]]
-						  forKey:@"free"];
+					      [self spaceString:((float)mountInfo[i].f_bavail * (float)mountInfo[i].f_bsize)]]
+				      forKey:@"free"];
 			[diskStats setObject:[NSString stringWithFormat:[localizedStrings objectForKey:kUsedSpaceFormat],
-									[self spaceString:(((float)mountInfo[i].f_blocks -
-														(float)mountInfo[i].f_bavail) * mountInfo[i].f_bsize)]]
-						  forKey:@"used"];
+					      [self spaceString:(((float)mountInfo[i].f_blocks -
+								  (float)mountInfo[i].f_bavail) * mountInfo[i].f_bsize)]]
+				      forKey:@"used"];
 			// Store the data into the array
 			[diskSpaceDetails addObject:diskStats];
 
- 		} // end of filesystem type check
+		} // end of filesystem type check
 	} // end of mount loop
 
 	// Sort by device, this matches most users expectations best
@@ -238,16 +243,16 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 	if (useBaseTen) {
 		if (space > 1000000000) {
 			return [NSString stringWithFormat:@"%@%@",
-					[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000000000]],
-					[localizedStrings objectForKey:kGBLabel]];
+				[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000000000]],
+				[localizedStrings objectForKey:kGBLabel]];
 		} else if (space > 1000000) {
 			return [NSString stringWithFormat:@"%@%@",
-					[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000000]],
-					[localizedStrings objectForKey:kMBLabel]];
+				[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000000]],
+				[localizedStrings objectForKey:kMBLabel]];
 		} else {
 			return [NSString stringWithFormat:@"%@%@",
-					[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000]],
-					[localizedStrings objectForKey:kKBLabel]];
+				[spaceFormatter stringForObjectValue:[NSNumber numberWithFloat:space / 1000]],
+				[localizedStrings objectForKey:kKBLabel]];
 		}
 	} else {
 		if (space > 1073741824) {
@@ -264,7 +269,7 @@ static NSComparisonResult SortDiskEntryByDeviceString(NSDictionary *a, NSDiction
 				[localizedStrings objectForKey:kKBLabel]];
 		}
 	}
-
+	
 } // spaceString
 
 @end

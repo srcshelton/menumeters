@@ -39,13 +39,13 @@
 		return nil;
 	}
 	cpuMenuExtra = extra;
-    return self;
+	return self;
 
 } // initWithFrame
 
 - (void)dealloc {
 
-    [super dealloc];
+	[super dealloc];
 
 } // dealloc
 
@@ -60,15 +60,18 @@
 	// Following our superclass API, get an image from the extra and draw it
 	// on the extra's behalf.
 	NSImage *image = [cpuMenuExtra image];
-    if (image) {
+	if (image) {
 		// Live updating even when menu is down handled by making the extra
 		// draw the background if needed.
-		if ([cpuMenuExtra isMenuDown] || 
-			([cpuMenuExtra respondsToSelector:@selector(isMenuDownForAX)] && [cpuMenuExtra isMenuDownForAX])) {
+		if ([cpuMenuExtra isMenuDown] ||
+		    ([cpuMenuExtra respondsToSelector:@selector(isMenuDownForAX)] && [cpuMenuExtra isMenuDownForAX])) {
 			[cpuMenuExtra drawMenuBackground:YES];
 		}
 		// CPU image is is height - 1 to skip edge of menubar
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		[image compositeToPoint:NSMakePoint(0, 1) operation:NSCompositeSourceOver];
+#pragma GCC diagnostic pop
 	}
 
 } // drawRect
